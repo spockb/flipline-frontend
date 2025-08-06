@@ -9,8 +9,8 @@ const links = [
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-sm">
-      <Link to="/" className="text-2xl font-bold tracking-tight text-gray-900">
-        <span className="text-primary-500">Investo</span>Presto
+      <Link to="/" className="text-3xl font-bold tracking-tight text-gray-900">
+        <span className="text-primary-500">Flip</span>Line
       </Link>
       <nav className="flex items-center justify-center gap-6 text-sm font-medium text-gray-600">
         {links.map(({ link, label }, i) => (
