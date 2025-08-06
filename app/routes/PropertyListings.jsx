@@ -6,5 +6,5 @@ const propertyListings = properties.listings.map((property) => {
 });
 
 export default function PropertyListings() {
-  return <>{propertyListings}</>;
+  return <div className="flex gap-8">{propertyListings}</div>;
 }
