@@ -5,6 +5,7 @@ const propertyListings = properties.listings.map((property) => {
   return (
     <PropertyCard
       key={property.id}
+      id={property.id}
       img={property.images[0]}
       location={property.location}
       cost={property.cost}
