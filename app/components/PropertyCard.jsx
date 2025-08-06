@@ -31,7 +31,7 @@ export default function PropertyCard({
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-medium text-gray-600">{location}</p>
-          <p className="text-xl font-bold text-green-600">
+          <p className="text-xl font-bold text-primary-600">
             ${formatPrice(cost)}
           </p>
         </div>

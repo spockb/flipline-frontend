@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
+import Button from "./Button";
 
 const links = [
   { link: "/properties", label: "Properties" },
@@ -7,18 +8,32 @@ const links = [
 
 export default function Header() {
   return (
-    <header className="flex justify-between p-4 border-b">
-      <Link to="/" className="text-2xl">
-        InvestoPresto
+    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-sm">
+      <Link to="/" className="text-2xl font-bold tracking-tight text-gray-900">
+        <span className="text-primary-500">Investo</span>Presto
       </Link>
-      <nav className="flex gap-2">
-        {links.map((link, i) => {
-          return (
-            <NavLink to={`${link.link}`} key={i}>
-              {link.label}
-            </NavLink>
-          );
-        })}
+      <nav className="flex items-center justify-center gap-6 text-sm font-medium text-gray-600">
+        {links.map(({ link, label }, i) => (
+          <NavLink
+            key={i}
+            to={link}
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary-500 border-b-2 border-primary-500"
+                : "hover:text-primary-500 transition"
+            }
+          >
+            {label}
+          </NavLink>
+        ))}
+        <NavLink to="/login">
+          <Button size="sm">Log in</Button>
+        </NavLink>
+        <NavLink to="/signup">
+          <Button size="sm" variant="outline">
+            Sign-up
+          </Button>
+        </NavLink>
       </nav>
     </header>
   );
