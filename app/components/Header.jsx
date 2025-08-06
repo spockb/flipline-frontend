@@ -26,14 +26,14 @@ export default function Header() {
             {label}
           </NavLink>
         ))}
-        <NavLink to="/login">
+        {/* <NavLink to="/login">
           <Button size="sm">Log in</Button>
         </NavLink>
         <NavLink to="/signup">
           <Button size="sm" variant="outline">
             Sign-up
           </Button>
-        </NavLink>
+        </NavLink> */}
       </nav>
     </header>
   );
