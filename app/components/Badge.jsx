@@ -3,11 +3,13 @@ import { MdOutlineSquareFoot } from "react-icons/md";
 
 export default function Badge({ type, children }) {
   return (
-    <div className="flex justify-center px-2 py-1 border rounded-lg">
-      {type === "bed" ? <FaBed /> : null}
-      {type === "bath" ? <FaBath /> : null}
-      {type === "sqf" ? <MdOutlineSquareFoot /> : null}
-      <span>{children}</span>
+    <div className="flex items-center justify-center gap-1 px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50">
+      {type === "bed" && <FaBed className="w-4 h-4 text-gray-500" />}
+      {type === "bath" && <FaBath className="w-4 h-4 text-gray-500" />}
+      {type === "sqf" && (
+        <MdOutlineSquareFoot className="w-4 h-4 text-gray-500" />
+      )}
+      <span className="font-medium text-gray-700">{children}</span>
     </div>
   );
 }
