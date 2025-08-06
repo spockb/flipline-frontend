@@ -23,6 +23,7 @@ export default function PropertyCard({
         <img
           src={img}
           alt="house"
+          loading="lazy"
           className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
         />
       </div>
