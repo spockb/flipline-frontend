@@ -14,8 +14,8 @@ export default function PropertyDetails() {
     setProperty(propertyMatch[0]);
   }, [params.id]);
 
-  function formatPrice(cost) {
-    return Number(cost).toLocaleString("en-US");
+  function formatNum(val) {
+    return Number(val).toLocaleString("en-US");
   }
 
   const {
@@ -53,12 +53,12 @@ export default function PropertyDetails() {
       {/* Price and Valuation */}
       <div className="flex items-center gap-6 mb-6">
         <p className="text-2xl font-semibold text-primary-600">
-          ${formatPrice(cost)}
+          ${formatNum(cost)}
         </p>
         <p className="text-gray-500 text-md">
           Valued at:{" "}
           <span className="font-medium text-gray-800">
-            ${formatPrice(valuedAt)}
+            ${formatNum(valuedAt)}
           </span>
         </p>
       </div>
@@ -67,7 +67,7 @@ export default function PropertyDetails() {
       <div className="flex flex-wrap gap-4 mb-6">
         <Badge type="bed">{bedrooms} Bed</Badge>
         <Badge type="bath">{bathrooms} Bath</Badge>
-        <Badge type="sqf">{formatPrice(squareFootage)} SqFt</Badge>
+        <Badge type="sqf">{formatNum(squareFootage)}ft²</Badge>
         {lotSize && <Badge type="lot">{lotSize} acres</Badge>}
         {yearBuilt && <Badge type="year">Built {yearBuilt}</Badge>}
       </div>

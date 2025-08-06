@@ -43,9 +43,9 @@ export default function PropertyCard({
           </h3>
 
           <div className="flex gap-3">
-            <Badge type="bed">{bed}</Badge>
-            <Badge type="bath">{bath}</Badge>
-            <Badge type="sqf">{formatPrice(sqf)}</Badge>
+            <Badge type="bed">{bed} Bed</Badge>
+            <Badge type="bath">{bath} Bath</Badge>
+            <Badge type="sqf">{formatPrice(sqf)}ft²</Badge>
           </div>
         </div>
       </Link>
