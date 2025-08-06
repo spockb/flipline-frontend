@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "./Button";
 
 const Hero = () => {
@@ -22,9 +23,11 @@ const Hero = () => {
         </p>
 
         <div className="flex justify-center">
-          <Button size="lg" variant="fill">
-            View Properties
-          </Button>
+          <Link to="/properties">
+            <Button size="lg" variant="fill">
+              View Properties
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
