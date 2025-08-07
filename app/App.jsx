@@ -25,11 +25,12 @@ export default function App() {
   }, [favorites]);
 
   const handleFilter = (filterValues) => {
-    const { minBedrooms, minBathrooms } = filterValues;
+    const { minBedrooms, minBathrooms, minSquareFootage } = filterValues;
     const filtered = allProperties.filter((property) => {
       if (
         property.bedrooms >= minBedrooms &&
-        property.bathrooms >= minBathrooms
+        property.bathrooms >= minBathrooms &&
+        property.squareFootage >= minSquareFootage
       ) {
         return property;
       }

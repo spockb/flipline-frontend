@@ -5,7 +5,7 @@ import { IoIosResize } from "react-icons/io";
 export default function Badge({ type, children }) {
   const iconClass = "w-4 h-4 text-gray-500";
   return (
-    <div className="flex items-center justify-center gap-1 px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50">
+    <div className="gap-1 py-3 border border-gray-200 badge bg-gray-50">
       {type === "bed" && <FaBed className={iconClass} />}
       {type === "bath" && <FaBath className={iconClass} />}
       {type === "sqf" && <MdOutlineSquareFoot className={iconClass} />}

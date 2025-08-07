@@ -46,25 +46,23 @@ export default function PropertyDetails() {
 
       {/* Address and Location */}
       <div className="mb-4">
-        <h1 className="text-3xl font-bold text-gray-900">{address}</h1>
-        <p className="text-lg text-gray-600">{location}</p>
+        <h1 className="text-3xl font-bold text-base-content">{address}</h1>
+        <p className="text-lg text-neutral">{location}</p>
       </div>
 
       {/* Price and Valuation */}
-      <div className="flex items-center gap-6 mb-6">
-        <p className="text-2xl font-semibold text-primary-600">
-          ${formatNum(cost)}
-        </p>
-        <p className="text-gray-500 text-md">
+      <div className="flex flex-wrap items-center gap-6 mb-6">
+        <p className="text-2xl font-bold text-primary">${formatNum(cost)}</p>
+        <p className="text-md text-neutral">
           Valued at:{" "}
-          <span className="font-medium text-gray-800">
+          <span className="font-medium text-base-content">
             ${formatNum(valuedAt)}
           </span>
         </p>
       </div>
 
       {/* Stats Badges */}
-      <div className="flex flex-wrap gap-4 mb-6">
+      <div className="flex flex-wrap gap-3 mb-6">
         <Badge type="bed">{bedrooms} Bed</Badge>
         <Badge type="bath">{bathrooms} Bath</Badge>
         <Badge type="sqf">{formatNum(squareFootage)}ft²</Badge>
@@ -74,10 +72,10 @@ export default function PropertyDetails() {
 
       {/* Description */}
       <div className="mb-12">
-        <h2 className="mb-2 text-xl font-semibold text-gray-800">
+        <h2 className="mb-2 text-xl font-semibold text-base-content">
           About this property
         </h2>
-        <p className="leading-relaxed text-gray-700">{bio}</p>
+        <p className="leading-relaxed text-base-content">{bio}</p>
       </div>
 
       {/* Gallery (if more images) */}
@@ -88,7 +86,7 @@ export default function PropertyDetails() {
               <img
                 src={img}
                 alt={`Property image ${idx + 2}`}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
               />
             </div>
           ))}

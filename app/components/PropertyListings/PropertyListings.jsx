@@ -31,7 +31,10 @@ const PropertyListings = ({
           ))}
         </div>
       ) : (
-        <p>No properties found</p>
+        <p className="p-4 text-sm text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-md">
+          No properties match your current filters. Try adjusting the search
+          criteria to see more results.
+        </p>
       )}
     </>
   );
