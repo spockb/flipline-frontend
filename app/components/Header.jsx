@@ -3,6 +3,7 @@ import Button from "./Button";
 
 const links = [
   { link: "/properties", label: "Properties" },
+  { link: "/favorites", label: "Favorites" },
   { link: "/about", label: "About" },
 ];
 

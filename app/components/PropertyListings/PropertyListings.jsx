@@ -1,18 +1,6 @@
-import { useState, useEffect } from "react";
-import { properties } from "../../assets/properties.js";
 import PropertyCard from "./PropertyCard.jsx";
-import Filter from "./Filter.jsx";
 
-const PropertyListings = () => {
-  const [filteredProperties, setFilteredProperties] = useState(properties);
-  const [favorites, setFavorites] = useState(() => {
-    return JSON.parse(localStorage.getItem("favorites")) || [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
+const PropertyListings = ({ properties, favorites, setFavorites }) => {
   const handleFavoritesClick = (propertyId) => {
     const isFavorited = favorites.includes(propertyId);
     const updatedFavorites = isFavorited
@@ -22,20 +10,23 @@ const PropertyListings = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 justify-items-stretch">
-      {filteredProperties.listings.map((property) => {
-        return (
-          <PropertyCard
-            id={property.id}
-            property={property}
-            isFavorited={favorites.includes(property.id)}
-            onFavoriteClick={() => {
-              handleFavoritesClick(property.id);
-            }}
-          />
-        );
-      })}
-    </div>
+    <>
+      {properties.length > 0 ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 justify-items-stretch">
+          {properties.map((property) => (
+            <PropertyCard
+              key={property.id}
+              id={property.id}
+              property={property}
+              isFavorited={favorites.includes(property.id)}
+              onFavoriteClick={() => handleFavoritesClick(property.id)}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>No properties found</p>
+      )}
+    </>
   );
 };
 
