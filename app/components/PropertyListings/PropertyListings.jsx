@@ -23,7 +23,6 @@ const PropertyListings = ({
           {properties.map((property) => (
             <PropertyCard
               key={property.id}
-              id={property.id}
               property={property}
               isFavorited={favorites.includes(property.id)}
               onFavoriteClick={() => handleFavoritesClick(property.id)}

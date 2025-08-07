@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { properties } from "../assets/properties";
 import Badge from "../components/Badge";
 
 export default function PropertyDetails() {
@@ -8,20 +7,29 @@ export default function PropertyDetails() {
   const [property, setProperty] = useState("");
 
   useEffect(() => {
-    const propertyMatch = properties.listings.filter(
-      (item) => params.id === item.id
-    );
-    setProperty(propertyMatch[0]);
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:5000/api/properties/${params.id}`
+        );
+        const data = await res.json();
+        setProperty(data);
+      } catch (err) {
+        console.error("Failed to fetch property details:", err);
+      }
+    };
+    fetchData();
   }, [params.id]);
 
   function formatNum(val) {
-    return Number(val).toLocaleString("en-US");
+    return (val ?? 0).toLocaleString("en-US");
   }
 
   const {
     id,
     address,
-    location,
+    city,
+    state,
     images,
     yearBuilt,
     cost,
@@ -47,7 +55,9 @@ export default function PropertyDetails() {
       {/* Address and Location */}
       <div className="mb-4">
         <h1 className="text-3xl font-bold text-base-content">{address}</h1>
-        <p className="text-lg text-neutral">{location}</p>
+        <p className="text-lg text-neutral">
+          {city}, {state}
+        </p>
       </div>
 
       {/* Price and Valuation */}

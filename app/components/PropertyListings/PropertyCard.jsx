@@ -14,7 +14,8 @@ export default function PropertyCard({
   const {
     id,
     images,
-    location,
+    city,
+    state,
     cost,
     address,
     bedrooms,
@@ -51,7 +52,7 @@ export default function PropertyCard({
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-sm font-medium text-base-content/70">
-              {location}
+              {city}, {state}
             </p>
             <p className="text-xl font-bold text-primary">
               ${formatPrice(cost)}

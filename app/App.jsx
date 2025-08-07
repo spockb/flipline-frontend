@@ -8,8 +8,7 @@ import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
 
 export default function App() {
-  const [allProperties, setAllProperties] = useState("");
-  const [filteredProperties, setFilteredProperties] = useState(allProperties);
+  const [properties, setProperties] = useState([]);
   const [favorites, setFavorites] = useState(() => {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
@@ -23,7 +22,7 @@ export default function App() {
       try {
         const res = await fetch("http://127.0.0.1:5000/api/properties");
         const data = await res.json();
-        setAllProperties(data);
+        setProperties(data);
       } catch (err) {
         console.error("Failed to fetch properties:", err);
       }
@@ -33,7 +32,7 @@ export default function App() {
 
   const handleFilter = (filterValues) => {
     const { minBedrooms, minBathrooms, minSquareFootage } = filterValues;
-    const filtered = allProperties.filter((property) => {
+    const filtered = properties.filter((property) => {
       if (
         property.bedrooms >= minBedrooms &&
         property.bathrooms >= minBathrooms &&
@@ -42,7 +41,7 @@ export default function App() {
         return property;
       }
     });
-    setFilteredProperties(filtered);
+    setProperties(filtered);
   };
 
   return (
@@ -55,7 +54,7 @@ export default function App() {
             path="properties"
             element={
               <PropertyListings
-                properties={allProperties}
+                properties={properties}
                 favorites={favorites}
                 setFavorites={setFavorites}
                 onFilter={handleFilter}
@@ -63,19 +62,17 @@ export default function App() {
             }
           />
           <Route path="properties/:id" element={<PropertyDetails />} />
-          {/* <Route
+          <Route
             path="favorites"
             element={
               <PropertyListings
-                properties={filteredProperties.filter((p) =>
-                  favorites.includes(p.id)
-                )}
+                properties={properties.filter((p) => favorites.includes(p.id))}
                 favorites={favorites}
                 setFavorites={setFavorites}
                 onFilter={handleFilter}
               />
             }
-          /> */}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
