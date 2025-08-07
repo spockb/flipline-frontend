@@ -8,21 +8,28 @@ import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
 
 export default function App() {
-  const [properties, setProperties] = useState([]);
+  const [allProperties, setAllProperties] = useState([]);
+  const [filters, setFilters] = useState({
+    minBedrooms: "",
+    minBathrooms: "",
+    minSquareFootage: "",
+  });
   const [favorites, setFavorites] = useState(() => {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
 
+  // Get Favorites
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  // Fetch Data
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("http://127.0.0.1:5000/api/properties");
         const data = await res.json();
-        setProperties(data);
+        setAllProperties(data);
       } catch (err) {
         console.error("Failed to fetch properties:", err);
       }
@@ -30,19 +37,19 @@ export default function App() {
     fetchData();
   }, []);
 
-  const handleFilter = (filterValues) => {
-    const { minBedrooms, minBathrooms, minSquareFootage } = filterValues;
-    const filtered = properties.filter((property) => {
-      if (
-        property.bedrooms >= minBedrooms &&
-        property.bathrooms >= minBathrooms &&
-        property.squareFootage >= minSquareFootage
-      ) {
-        return property;
-      }
-    });
-    setProperties(filtered);
-  };
+  // Filter logic
+  const handleFilter = (filterVals) => setFilters(filterVals);
+  const minBeds = Number(filters.minBedrooms) || 0;
+  const minBaths = Number(filters.minBathrooms) || 0;
+  const minSqft = Number(filters.minSquareFootage) || 0;
+
+  const filtered = allProperties.filter((p) => {
+    return (
+      Number(p.bedrooms) >= minBeds &&
+      Number(p.bathrooms) >= minBaths &&
+      Number(p.squareFootage) >= minSqft
+    );
+  });
 
   return (
     <BrowserRouter>
@@ -54,7 +61,7 @@ export default function App() {
             path="properties"
             element={
               <PropertyListings
-                properties={properties}
+                properties={filtered}
                 favorites={favorites}
                 setFavorites={setFavorites}
                 onFilter={handleFilter}
@@ -66,7 +73,7 @@ export default function App() {
             path="favorites"
             element={
               <PropertyListings
-                properties={properties.filter((p) => favorites.includes(p.id))}
+                properties={filtered.filter((p) => favorites.includes(p.id))}
                 favorites={favorites}
                 setFavorites={setFavorites}
                 onFilter={handleFilter}

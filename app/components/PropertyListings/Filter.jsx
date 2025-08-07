@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const Filter = ({ onFilter }) => {
   const [minBedrooms, setMinBedrooms] = useState(0);
   const [minBathrooms, setMinBathrooms] = useState(0);
   const [minSquareFootage, setMinSquareFootage] = useState(0);
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      onFilter({
+        minBedrooms: minBedrooms,
+        minBathrooms: minBathrooms,
+        minSquareFootage: minSquareFootage,
+      });
+    },
+    [minBedrooms, minBathrooms, minSquareFootage, onFilter]
+  );
+
+  const handleReset = useCallback((e) => {
     e.preventDefault();
-    onFilter({ minBedrooms, minBathrooms, minSquareFootage });
-  };
+    setMinBedrooms(0);
+    setMinBathrooms(0);
+    setMinSquareFootage(0);
+    onFilter({ minBedrooms: 0, minBathrooms: 0, minSquareFootage: 0 });
+  });
 
   return (
     <div className="pb-4">
@@ -16,7 +31,7 @@ const Filter = ({ onFilter }) => {
           <legend className="fieldset-legend">Min Bedrooms</legend>
           <select
             value={minBedrooms}
-            onChange={(e) => setMinBedrooms(e.target.value)}
+            onChange={(e) => setMinBedrooms(Number(e.target.value))}
             className="select"
           >
             <option value={0}>No Min</option>
@@ -33,7 +48,7 @@ const Filter = ({ onFilter }) => {
           <select
             value={minBathrooms}
             className="select"
-            onChange={(e) => setMinBathrooms(e.target.value)}
+            onChange={(e) => setMinBathrooms(Number(e.target.value))}
           >
             <option value={0}>No Min</option>
             <option value={1}>1+</option>
@@ -48,7 +63,7 @@ const Filter = ({ onFilter }) => {
           <select
             value={minSquareFootage}
             className="select"
-            onChange={(e) => setMinSquareFootage(e.target.value)}
+            onChange={(e) => setMinSquareFootage(Number(e.target.value))}
           >
             <option value={0}>No Min</option>
             <option value={500}>500+</option>
@@ -65,7 +80,11 @@ const Filter = ({ onFilter }) => {
           className="btn btn-primary"
           value="Filter Search"
         />
-        <button type="reset" className="btn btn-sm btn-ghost">
+        <button
+          type="button"
+          onClick={handleReset}
+          className="btn btn-sm btn-ghost"
+        >
           Reset Filters
         </button>
       </form>
