@@ -24,6 +24,19 @@ export default function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  const handleFilter = (filterValues) => {
+    const { minBedrooms, minBathrooms } = filterValues;
+    const filtered = allProperties.filter((property) => {
+      if (
+        property.bedrooms >= minBedrooms &&
+        property.bathrooms >= minBathrooms
+      ) {
+        return property;
+      }
+    });
+    setFilteredProperties(filtered);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -34,11 +47,12 @@ export default function App() {
             path="favorites"
             element={
               <PropertyListings
-                properties={allProperties.filter((p) =>
+                properties={filteredProperties.filter((p) =>
                   favorites.includes(p.id)
                 )}
                 favorites={favorites}
                 setFavorites={setFavorites}
+                onFilter={handleFilter}
               />
             }
           />
@@ -48,9 +62,10 @@ export default function App() {
             path="properties"
             element={
               <PropertyListings
-                properties={allProperties}
+                properties={filteredProperties}
                 favorites={favorites}
                 setFavorites={setFavorites}
+                onFilter={handleFilter}
               />
             }
           />

@@ -9,7 +9,7 @@ const links = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-sm">
       <Link to="/" className="text-3xl font-bold tracking-tight text-gray-900">
         <span className="text-primary-500">Flip</span>Line
       </Link>

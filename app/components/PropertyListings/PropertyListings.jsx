@@ -1,6 +1,12 @@
+import Filter from "./Filter.jsx";
 import PropertyCard from "./PropertyCard.jsx";
 
-const PropertyListings = ({ properties, favorites, setFavorites }) => {
+const PropertyListings = ({
+  properties,
+  favorites,
+  setFavorites,
+  onFilter,
+}) => {
   const handleFavoritesClick = (propertyId) => {
     const isFavorited = favorites.includes(propertyId);
     const updatedFavorites = isFavorited
@@ -11,6 +17,7 @@ const PropertyListings = ({ properties, favorites, setFavorites }) => {
 
   return (
     <>
+      <Filter onFilter={onFilter} />
       {properties.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 justify-items-stretch">
           {properties.map((property) => (
