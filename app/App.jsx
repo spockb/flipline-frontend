@@ -9,7 +9,7 @@ import PropertyListings from "./components/PropertyListings/PropertyListings";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState("");
-  const [filteredProperties, setFilteredProperties] = useState("");
+  const [filteredProperties, setFilteredProperties] = useState(allProperties);
   const [favorites, setFavorites] = useState(() => {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
@@ -55,7 +55,7 @@ export default function App() {
             path="properties"
             element={
               <PropertyListings
-                properties={filteredProperties}
+                properties={allProperties}
                 favorites={favorites}
                 setFavorites={setFavorites}
                 onFilter={handleFilter}
@@ -63,7 +63,7 @@ export default function App() {
             }
           />
           <Route path="properties/:id" element={<PropertyDetails />} />
-          <Route
+          {/* <Route
             path="favorites"
             element={
               <PropertyListings
@@ -75,7 +75,7 @@ export default function App() {
                 onFilter={handleFilter}
               />
             }
-          />
+          /> */}
         </Route>
       </Routes>
     </BrowserRouter>
