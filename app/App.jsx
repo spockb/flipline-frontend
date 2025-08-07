@@ -6,6 +6,7 @@ import About from "./routes/About";
 import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
+import Upload from "./routes/Upload";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -18,7 +19,6 @@ export default function App() {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
 
-  // Get Favorites
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
@@ -81,6 +81,7 @@ export default function App() {
             }
           />
         </Route>
+        <Route path="upload" element={<Upload />} />
       </Routes>
     </BrowserRouter>
   );

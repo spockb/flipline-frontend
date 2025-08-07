@@ -4,6 +4,7 @@ const links = [
   { link: "/properties", label: "Properties" },
   { link: "/favorites", label: "Favorites" },
   { link: "/about", label: "About" },
+  { link: "/upload", label: "Upload" },
 ];
 
 export default function Header() {
