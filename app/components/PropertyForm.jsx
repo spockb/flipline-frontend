@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const defaultObj = {
   title: "",
@@ -17,11 +18,35 @@ const defaultObj = {
 };
 
 const PropertyForm = ({ initValues, mode, onSubmit }) => {
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState("");
+
+  const createProperty = async (payload) => {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/properties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed: ${res.status}`);
+      }
+
+      const data = await res.json();
+      navigate(`/properties/${data.id}`);
+      console.log("Created property:", data);
+      return data;
+    } catch (err) {
+      console.error("POST failed:", err);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formValues);
+    createProperty(formValues);
   };
 
   function onFormChange(val) {

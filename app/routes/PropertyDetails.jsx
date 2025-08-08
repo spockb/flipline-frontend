@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Badge from "../components/Badge";
 
 export default function PropertyDetails() {
+  const navigate = useNavigate();
   const params = useParams();
   const [property, setProperty] = useState("");
   const [deleteMessage, setDeleteMessage] = useState(false);
@@ -25,9 +26,26 @@ export default function PropertyDetails() {
   function formatNum(val) {
     return (val ?? 0).toLocaleString("en-US");
   }
-  const deleteProperty = () => {
-    console.log("Delete Property with ID:", params.id);
+
+  const deleteProperty = async () => {
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:5000/api/properties/${params.id}`,
+        { method: "DELETE", headers: { Accept: "application/json" } }
+      );
+
+      if (res.status === 204 || res.ok) {
+        console.log("Success: Property Deleted");
+        navigate("/properties");
+        return;
+      }
+      const msg = await res.text();
+      throw new Error(`Delete failed: ${res.status} ${msg}`);
+    } catch (err) {
+      console.error("Failed to delete property from database:", err);
+    }
   };
+
   const {
     id,
     address,
@@ -43,6 +61,10 @@ export default function PropertyDetails() {
     bio,
     lotSize,
   } = property;
+
+  const handleEditClick = () => {
+    console.log("clicked");
+  };
 
   const DeleteElement = () => {
     return (
@@ -75,7 +97,9 @@ export default function PropertyDetails() {
       <div className="relative">
         {deleteMessage ? <DeleteElement /> : null}
         <div className="flex justify-end gap-4">
-          <button className="btn btn-soft btn-sm">Edit</button>
+          <button className="btn btn-soft btn-sm" onClick={handleEditClick}>
+            Edit
+          </button>
           <button
             className="btn btn-soft btn-error btn-sm"
             onClick={() => {
