@@ -54,7 +54,7 @@ export default function App() {
   });
 
   // Property Form
-  const propertyFormSubmit = async (payload) => {
+  const createProperty = async (payload) => {
     try {
       const res = await fetch("http://127.0.0.1:5000/api/properties", {
         method: "POST",
@@ -108,7 +108,7 @@ export default function App() {
           <Route path="admin" element={<AdminLayout />}>
             <Route
               path="properties/new"
-              element={<CreateProperty onSubmit={propertyFormSubmit} />}
+              element={<CreateProperty onSubmit={createProperty} />}
             />
             <Route path="properties/:id/edit" element={<EditProperty />} />
           </Route>

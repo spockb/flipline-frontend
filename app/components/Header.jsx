@@ -8,7 +8,7 @@ const links = [
 
 const adminLinks = [
   { link: "admin/properties/new", label: "Create Property" },
-  { link: "admin/properties/:id/edit", label: "Edit Property" },
+  // { link: "admin/properties/:id/edit", label: "Edit Property" },
 ];
 
 export default function Header() {
