@@ -1,9 +1,43 @@
+import { useState } from "react";
+
+const defaultObj = {
+  title: "",
+  address: "",
+  city: "",
+  state: "",
+  yearBuilt: "",
+  cost: "",
+  valuedAt: "",
+  squareFootage: "",
+  bedrooms: "",
+  bathrooms: "",
+  lotSize: "",
+  bio: "",
+  images: [],
+};
+
 const PropertyForm = ({ initValues, mode, onSubmit }) => {
+  const [formValues, setFormValues] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formValues);
+  };
+
+  function onFormChange(val) {
+    setFormValues((p) => {
+      return { ...p, ...val };
+    });
+  }
+
+  console.log(formValues);
   return (
     <>
-      <form className="grid max-w-4xl gap-6 mx-auto">
+      <form className="grid max-w-4xl gap-6 mx-auto" onSubmit={handleSubmit}>
         {/* Header */}
-        <h2 className="text-xl font-semibold">Create Property</h2>
+        <h2 className="text-xl font-semibold">
+          {mode === "create" ? "Create" : "Edit"} Property
+        </h2>
 
         {/* Property Details */}
         <fieldset className="border card bg-base-200 border-base-300">
@@ -17,6 +51,8 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="text"
+                  value={formValues.title}
+                  onChange={(e) => onFormChange({ title: e.target.value })}
                   placeholder="My Awesome House"
                   className="w-full input input-bordered"
                 />
@@ -24,10 +60,12 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
 
               <label className="w-full form-control">
                 <div className="label">
-                  <span className="label-text">Image URL</span>
+                  <span className="label-text">Image Path</span>
                 </div>
                 <input
                   type="text"
+                  value={formValues.images}
+                  onChange={(e) => onFormChange({ images: e.target.value })}
                   placeholder="/images/015/exterior.webp"
                   className="w-full input input-bordered"
                 />
@@ -38,6 +76,8 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                   <span className="label-text">About</span>
                 </div>
                 <textarea
+                  value={formValues.bio}
+                  onChange={(e) => onFormChange({ bio: e.target.value })}
                   className="textarea textarea-bordered h-28"
                   placeholder="Classic ranch with great bones in mature neighborhood..."
                 />
@@ -58,6 +98,8 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="text"
+                  value={formValues.address}
+                  onChange={(e) => onFormChange({ address: e.target.value })}
                   placeholder="123 Cupcake Ln."
                   className="w-full input input-bordered"
                 />
@@ -69,6 +111,8 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="text"
+                  value={formValues.city}
+                  onChange={(e) => onFormChange({ city: e.target.value })}
                   placeholder="Los Angeles"
                   className="w-full input input-bordered"
                 />
@@ -80,6 +124,8 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="text"
+                  value={formValues.state}
+                  onChange={(e) => onFormChange({ state: e.target.value })}
                   placeholder="CA"
                   className="w-full input input-bordered"
                 />
@@ -102,6 +148,10 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  value={formValues.yearBuilt}
+                  onChange={(e) =>
+                    onFormChange({ yearBuilt: Number(e.target.value) })
+                  }
                   placeholder="2012"
                   className="w-full input input-bordered"
                 />
@@ -113,6 +163,11 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  step="100"
+                  value={formValues.squareFootage}
+                  onChange={(e) =>
+                    onFormChange({ squareFootage: Number(e.target.value) })
+                  }
                   placeholder="2300"
                   className="w-full input input-bordered"
                 />
@@ -125,7 +180,11 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 <input
                   type="number"
                   step="0.01"
-                  placeholder=".38"
+                  value={formValues.lotSize}
+                  onChange={(e) =>
+                    onFormChange({ lotSize: Number(e.target.value) })
+                  }
+                  placeholder=".28"
                   className="w-full input input-bordered"
                 />
               </label>
@@ -136,6 +195,10 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  value={formValues.bedrooms}
+                  onChange={(e) =>
+                    onFormChange({ bedrooms: Number(e.target.value) })
+                  }
                   placeholder="4"
                   className="w-full input input-bordered"
                 />
@@ -147,6 +210,10 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  value={formValues.bathrooms}
+                  onChange={(e) =>
+                    onFormChange({ bathrooms: Number(e.target.value) })
+                  }
                   step="0.5"
                   placeholder="2.5"
                   className="w-full input input-bordered"
@@ -159,6 +226,11 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  step="25000"
+                  value={formValues.cost}
+                  onChange={(e) =>
+                    onFormChange({ cost: Number(e.target.value) })
+                  }
                   placeholder="425000"
                   className="w-full input input-bordered"
                 />
@@ -170,6 +242,11 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
                 </div>
                 <input
                   type="number"
+                  step="25000"
+                  value={formValues.valuedAt}
+                  onChange={(e) =>
+                    onFormChange({ valuedAt: Number(e.target.value) })
+                  }
                   placeholder="500000"
                   className="w-full input input-bordered"
                 />
@@ -184,7 +261,7 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
             Cancel
           </button>
           <button type="submit" className="btn btn-primary">
-            Save Property
+            {mode === "create" ? "Add" : "Save"} Property
           </button>
         </div>
       </form>

@@ -53,6 +53,13 @@ export default function App() {
     );
   });
 
+  // Property Form
+  const propertyFormSubmit = (val) => {
+    // callback function to update state
+    // setState(val)
+    // or maybe i just directly POST it here
+  };
+
   return (
     <BrowserRouter>
       <Routes>
