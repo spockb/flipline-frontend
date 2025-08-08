@@ -30,7 +30,6 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
     });
   }
 
-  console.log(formValues);
   return (
     <>
       <form className="grid max-w-4xl gap-6 mx-auto" onSubmit={handleSubmit}>

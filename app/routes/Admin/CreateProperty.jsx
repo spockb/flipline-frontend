@@ -1,7 +1,7 @@
 import PropertyForm from "../../components/PropertyForm";
 
 const CreateProperty = () => {
-  return <PropertyForm initValues={""} mode="create" onSubmit={""} />;
+  return <PropertyForm mode="create" onSubmit={""} />;
 };
 
 export default CreateProperty;

@@ -1,12 +1,24 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const links = [
-  { link: "properties/new", label: "Create New Property" },
-  { link: "properties/:id/edit", label: "Edit Existing Property" },
+  { link: "properties/new", label: "Create Property" },
+  { link: "properties/:id/edit", label: "Edit Property" },
 ];
 
 const AdminLayout = () => {
-  return <Outlet />;
+  return (
+    <>
+      <div className="flex items-center justify-end gap-4 text-sm font-medium">
+        {links.map(({ link, label }, i) => (
+          <Link key={i} to={link}>
+            <button className="btn btn-primary btn-sm">{label}</button>
+          </Link>
+        ))}
+      </div>
+
+      <Outlet />
+    </>
+  );
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
