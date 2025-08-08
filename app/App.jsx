@@ -54,10 +54,26 @@ export default function App() {
   });
 
   // Property Form
-  const propertyFormSubmit = (val) => {
-    // callback function to update state
-    // setState(val)
-    // or maybe i just directly POST it here
+  const propertyFormSubmit = async (payload) => {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/properties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed: ${res.status}`);
+      }
+
+      const data = await res.json();
+      console.log("Created property:", data);
+      return data;
+    } catch (err) {
+      console.error("POST failed:", err);
+    }
   };
 
   return (
@@ -90,7 +106,10 @@ export default function App() {
             }
           />
           <Route path="admin" element={<AdminLayout />}>
-            <Route path="properties/new" element={<CreateProperty />} />
+            <Route
+              path="properties/new"
+              element={<CreateProperty onSubmit={propertyFormSubmit} />}
+            />
             <Route path="properties/:id/edit" element={<EditProperty />} />
           </Route>
         </Route>

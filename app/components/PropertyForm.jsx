@@ -26,7 +26,11 @@ const PropertyForm = ({ initValues, mode, onSubmit }) => {
 
   function onFormChange(val) {
     setFormValues((p) => {
-      return { ...p, ...val };
+      if (val.images) {
+        return { ...p, images: [val.images] };
+      } else {
+        return { ...p, ...val };
+      }
     });
   }
 

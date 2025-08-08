@@ -1,5 +1,5 @@
 const EditProperty = () => {
-  return <h1>Edit Property</h1>;
+  return <PropertyForm initValues={property} mode="edit" onSubmit={""} />;
 };
 
 export default EditProperty;
