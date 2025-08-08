@@ -6,7 +6,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <main className="container max-w-screen-xl px-4 py-4 mx-auto">
+      <main className="container max-w-screen-xl p-4 mx-auto">
         <Outlet />
       </main>
     </>

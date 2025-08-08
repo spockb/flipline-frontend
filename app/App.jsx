@@ -6,9 +6,9 @@ import About from "./routes/About";
 import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
-import AdminLayout from "./routes/Admin/AdminLayout";
-import CreateProperty from "./routes/Admin/CreateProperty";
-import EditProperty from "./routes/Admin/EditProperty";
+import AdminLayout from "./routes/admin/AdminLayout";
+import CreateProperty from "./routes/admin/CreateProperty";
+import EditProperty from "./routes/admin/EditProperty";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
