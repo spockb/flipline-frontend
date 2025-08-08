@@ -6,7 +6,9 @@ import About from "./routes/About";
 import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
-import Upload from "./routes/Upload";
+import AdminLayout from "./routes/Admin/AdminLayout";
+import CreateProperty from "./routes/Admin/CreateProperty";
+import EditProperty from "./routes/Admin/EditProperty";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -80,8 +82,11 @@ export default function App() {
               />
             }
           />
+          <Route path="admin" element={<AdminLayout />}>
+            <Route path="properties/new" element={<CreateProperty />} />
+            <Route path="properties/:id/edit" element={<EditProperty />} />
+          </Route>
         </Route>
-        <Route path="upload" element={<Upload />} />
       </Routes>
     </BrowserRouter>
   );
