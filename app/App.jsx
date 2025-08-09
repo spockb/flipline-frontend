@@ -74,6 +74,7 @@ export default function App() {
             element={
               <PropertyDetails
                 allProperties={allProperties}
+                setAllProperties={setAllProperties}
                 property={property}
                 setProperty={setProperty}
               />

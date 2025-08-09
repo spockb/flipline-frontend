@@ -4,6 +4,7 @@ import Badge from "../components/Badge";
 
 export default function PropertyDetails({
   allProperties,
+  setAllProperties,
   property,
   setProperty,
 }) {
@@ -44,8 +45,11 @@ export default function PropertyDetails({
         { method: "DELETE", headers: { Accept: "application/json" } }
       );
 
-      if (res.status === 204 || res.ok) {
-        console.log("Success: Property Deleted");
+      if (res.ok) {
+        const data = await res.json();
+        setAllProperties((prev) =>
+          prev.filter((p) => p.id !== data.property.id)
+        );
         navigate("/properties");
         return;
       }

@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PropertyForm = ({ initValues, mode }) => {
   const def = initValues ? initValues : "";
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState(def);
 
+  const params = useParams();
+
   const createProperty = async (payload) => {
+    const id = params.id;
+    const base = "http://127.0.0.1:5000/api/properties";
+    const url = mode === "create" ? base : `${base}/${id}`;
+    const fetchMethod = mode === "create" ? "POST" : "PUT";
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/properties", {
-        method: "POST",
+      const res = await fetch(url, {
+        method: `${fetchMethod}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -22,10 +28,12 @@ const PropertyForm = ({ initValues, mode }) => {
 
       const data = await res.json();
       navigate(`/properties/${data.id}`);
-      console.log("Created property:", data);
+      mode === "create"
+        ? console.log("Created property:", data)
+        : console.log("Updated property:", data);
       return data;
     } catch (err) {
-      console.error("POST failed:", err);
+      console.error(`${fetchMethod}:`, err);
     }
   };
 
@@ -63,6 +71,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Title</span>
                 </div>
                 <input
+                  required
                   type="text"
                   value={formValues.title}
                   onChange={(e) => onFormChange({ title: e.target.value })}
@@ -76,6 +85,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Image Path</span>
                 </div>
                 <input
+                  required
                   type="text"
                   value={formValues.images}
                   onChange={(e) => onFormChange({ images: e.target.value })}
@@ -110,6 +120,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Address</span>
                 </div>
                 <input
+                  required
                   type="text"
                   value={formValues.address}
                   onChange={(e) => onFormChange({ address: e.target.value })}
@@ -123,6 +134,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">City</span>
                 </div>
                 <input
+                  required
                   type="text"
                   value={formValues.city}
                   onChange={(e) => onFormChange({ city: e.target.value })}
@@ -136,6 +148,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">State</span>
                 </div>
                 <input
+                  required
                   type="text"
                   value={formValues.state}
                   onChange={(e) => onFormChange({ state: e.target.value })}
@@ -160,6 +173,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Year Built</span>
                 </div>
                 <input
+                  required
                   type="number"
                   value={formValues.yearBuilt}
                   onChange={(e) =>
@@ -175,6 +189,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Square Footage</span>
                 </div>
                 <input
+                  required
                   type="number"
                   step="100"
                   value={formValues.squareFootage}
@@ -191,6 +206,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Lot Size (Acres)</span>
                 </div>
                 <input
+                  required
                   type="number"
                   step="0.01"
                   value={formValues.lotSize}
@@ -207,6 +223,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Bedrooms</span>
                 </div>
                 <input
+                  required
                   type="number"
                   value={formValues.bedrooms}
                   onChange={(e) =>
@@ -222,6 +239,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Bathrooms</span>
                 </div>
                 <input
+                  required
                   type="number"
                   value={formValues.bathrooms}
                   onChange={(e) =>
@@ -238,6 +256,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Price</span>
                 </div>
                 <input
+                  required
                   type="number"
                   step="25000"
                   value={formValues.cost}
@@ -254,6 +273,7 @@ const PropertyForm = ({ initValues, mode }) => {
                   <span className="label-text">Estimated Value</span>
                 </div>
                 <input
+                  required
                   type="number"
                   step="25000"
                   value={formValues.valuedAt}
@@ -270,7 +290,11 @@ const PropertyForm = ({ initValues, mode }) => {
 
         {/* Sticky footer */}
         <div className="sticky bottom-0 flex items-center justify-end gap-2 py-3 border-t bg-base-100">
-          <button type="button" className="btn btn-ghost">
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => navigate(-1)}
+          >
             Cancel
           </button>
           <button type="submit" className="btn btn-primary">
@@ -283,16 +307,3 @@ const PropertyForm = ({ initValues, mode }) => {
 };
 
 export default PropertyForm;
-
-<fieldset className="p-4 border fieldset bg-base-200 border-base-300 rounded-box w-xs">
-  <legend className="fieldset-legend">Page details</legend>
-
-  <label className="label">Title</label>
-  <input type="text" className="input" placeholder="My awesome page" />
-
-  <label className="label">Slug</label>
-  <input type="text" className="input" placeholder="my-awesome-page" />
-
-  <label className="label">Author</label>
-  <input type="text" className="input" placeholder="Name" />
-</fieldset>;
