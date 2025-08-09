@@ -6,12 +6,11 @@ import About from "./routes/About";
 import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
-import AdminLayout from "./routes/admin/AdminLayout";
-import CreateProperty from "./routes/admin/CreateProperty";
-import EditProperty from "./routes/admin/EditProperty";
+import PropertyForm from "./components/PropertyForm";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
+  const [property, setProperty] = useState("");
   const [filters, setFilters] = useState({
     minBedrooms: "",
     minBathrooms: "",
@@ -53,8 +52,6 @@ export default function App() {
     );
   });
 
-  // Property Form
-
   return (
     <BrowserRouter>
       <Routes>
@@ -72,7 +69,16 @@ export default function App() {
               />
             }
           />
-          <Route path="properties/:id" element={<PropertyDetails />} />
+          <Route
+            path="properties/:id"
+            element={
+              <PropertyDetails
+                allProperties={allProperties}
+                property={property}
+                setProperty={setProperty}
+              />
+            }
+          />
           <Route
             path="favorites"
             element={
@@ -84,9 +90,15 @@ export default function App() {
               />
             }
           />
-          <Route path="admin" element={<AdminLayout />}>
-            <Route path="properties/new" element={<CreateProperty />} />
-            <Route path="properties/:id/edit" element={<EditProperty />} />
+          <Route path="admin">
+            <Route
+              path="properties/new"
+              element={<PropertyForm mode="create" />}
+            />
+            <Route
+              path="properties/:id/edit"
+              element={<PropertyForm mode="edit" initValues={property} />}
+            />
           </Route>
         </Route>
       </Routes>

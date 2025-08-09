@@ -1,25 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const defaultObj = {
-  title: "",
-  address: "",
-  city: "",
-  state: "",
-  yearBuilt: "",
-  cost: "",
-  valuedAt: "",
-  squareFootage: "",
-  bedrooms: "",
-  bathrooms: "",
-  lotSize: "",
-  bio: "",
-  images: [],
-};
-
-const PropertyForm = ({ initValues, mode, onSubmit }) => {
+const PropertyForm = ({ initValues, mode }) => {
+  const def = initValues ? initValues : "";
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState("");
+  const [formValues, setFormValues] = useState(def);
 
   const createProperty = async (payload) => {
     try {

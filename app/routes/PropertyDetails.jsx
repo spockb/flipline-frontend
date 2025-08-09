@@ -2,25 +2,35 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Badge from "../components/Badge";
 
-export default function PropertyDetails() {
+export default function PropertyDetails({
+  allProperties,
+  property,
+  setProperty,
+}) {
   const navigate = useNavigate();
   const params = useParams();
-  const [property, setProperty] = useState("");
   const [deleteMessage, setDeleteMessage] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `http://127.0.0.1:5000/api/properties/${params.id}`
-        );
-        const data = await res.json();
-        setProperty(data);
-      } catch (err) {
-        console.error("Failed to fetch property details:", err);
-      }
-    };
-    fetchData();
+    const [propertyInfo] = allProperties.filter((item) => {
+      if (item.id == params.id) return item;
+    });
+    if (propertyInfo) {
+      setProperty(propertyInfo);
+    } else {
+      const fetchData = async () => {
+        try {
+          const res = await fetch(
+            `http://127.0.0.1:5000/api/properties/${params.id}`
+          );
+          const data = await res.json();
+          setProperty(data);
+        } catch (err) {
+          console.error("Failed to fetch property details:", err);
+        }
+      };
+      fetchData();
+    }
   }, [params.id]);
 
   function formatNum(val) {
@@ -62,10 +72,6 @@ export default function PropertyDetails() {
     lotSize,
   } = property;
 
-  const handleEditClick = () => {
-    console.log("clicked");
-  };
-
   const DeleteElement = () => {
     return (
       <div className="absolute -translate-x-1/2 -translate-y-1/2 shadow-sm top-1/2 left-1/2 card card-lg bg-base-100">
@@ -97,7 +103,10 @@ export default function PropertyDetails() {
       <div className="relative">
         {deleteMessage ? <DeleteElement /> : null}
         <div className="flex justify-end gap-4">
-          <button className="btn btn-soft btn-sm" onClick={handleEditClick}>
+          <button
+            className="btn btn-soft btn-sm"
+            onClick={() => navigate(`/admin/properties/${params.id}/edit`)}
+          >
             Edit
           </button>
           <button
