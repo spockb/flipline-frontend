@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../auth-context";
 
 const links = [
   { link: "/properties", label: "Properties" },
@@ -6,12 +7,18 @@ const links = [
   { link: "/about", label: "About" },
 ];
 
-const adminLinks = [
-  { link: "admin/properties/new", label: "Create Property" },
-  // { link: "admin/properties/:id/edit", label: "Edit Property" },
-];
-
 export default function Header() {
+  const { logout } = useAuth();
+
+  const logoutClick = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch {
+      console.error("Logout failed");
+    }
+  };
+
   return (
     <header className="z-50 shadow-sm navbar bg-base-100">
       <div className="flex-1">
@@ -40,7 +47,7 @@ export default function Header() {
             <NavLink to="/login">Log in</NavLink>
           </li>
           <li className="px-0 btn btn-soft btn-sm">
-            <NavLink to="/">Logout</NavLink>
+            <button onClick={() => logoutClick()}>Logout</button>
           </li>
         </ul>
       </div>
