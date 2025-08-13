@@ -36,19 +36,11 @@ export default function Header() {
               </NavLink>
             </li>
           ))}
-          <li>
-            <details>
-              <summary>Admin</summary>
-              <ul className="z-50 p-2 rounded-t-none bg-base-100">
-                {adminLinks.map(({ link, label }, i) => {
-                  return (
-                    <li key={i}>
-                      <Link to={link}>{label}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </details>
+          <li className="px-0 mr-2 btn btn-primary btn-sm">
+            <NavLink to="/login">Log in</NavLink>
+          </li>
+          <li className="px-0 btn btn-soft btn-sm">
+            <NavLink to="/">Logout</NavLink>
           </li>
         </ul>
       </div>

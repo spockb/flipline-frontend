@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
 import PropertyForm from "./components/PropertyForm";
+import Login from "./routes/Login";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -58,6 +59,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
           <Route
             path="properties"
             element={

@@ -4,19 +4,25 @@ const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
+  const API = "http://127.0.0.1:5000";
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    async () => {
-      const res = await fetch("http://127.0.0.1:5000/api/auth/me", {
-        credentials: "include",
-      });
-      if (res.ok) setUser(await res.json());
-    };
+    (async () => {
+      try {
+        const res = await fetch(`${API}/api/auth/me`, {
+          credentials: "include",
+        });
+        if (res.ok) setUser(await res.json());
+        else setUser(null);
+      } catch {
+        setUser(null);
+      }
+    })();
   }, []);
 
   const login = async (email, password) => {
-    const res = await fetch("http://127.0.0.1:5000/api/auth/login", {
+    const res = await fetch(`${API}/api/auth/login`, {
       method: "POST",
       body: JSON.stringify({ email: email, passwordHash: password }),
       headers: { "Content-Type": "application/json" },
@@ -24,15 +30,15 @@ export function AuthProvider({ children }) {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const me = await fetch("http://127.0.0.1:5000/api/auth/me", {
-      credentials: include,
+    const me = await fetch(`${API}/api/auth/me`, {
+      credentials: "include",
     });
     if (me.ok) setUser(await me.json());
     return true;
   };
 
   const logout = async () => {
-    await fetch("http://127.0.0.1:5000/api/auth/logout", {
+    await fetch(`${API}/api/auth/logout`, {
       method: "POST",
       credentials: "include",
     });
