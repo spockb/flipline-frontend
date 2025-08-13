@@ -97,9 +97,8 @@ export default function App() {
                 />
               }
             />
-          </Route>
-          <Route path={<AdminRoute />}>
-            <Route path="admin">
+
+            <Route path="admin" element={<AdminRoute />}>
               <Route
                 path="properties/new"
                 element={<PropertyForm mode="create" />}

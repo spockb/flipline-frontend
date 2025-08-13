@@ -1,7 +1,7 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
-const PrivateRoute = () => {
+const AdminRoute = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -9,3 +9,5 @@ const PrivateRoute = () => {
 
   if (user.role === "ADMIN") return <Outlet />;
 };
+
+export default AdminRoute;

@@ -1,14 +1,10 @@
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
-const links = [
-  { link: "/properties", label: "Properties" },
-  { link: "/favorites", label: "Favorites" },
-  { link: "/about", label: "About" },
-];
-
 export default function Header() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const className = ({ isActive }) =>
+    isActive ? "text-primary underline underline-offset-8" : "";
 
   const logoutClick = async () => {
     try {
@@ -29,26 +25,52 @@ export default function Header() {
           <span className="text-primary">Flip</span>Line
         </Link>
       </div>
+
       <div className="flex-none">
         <ul className="px-1 menu menu-horizontal">
-          {links.map(({ link, label }, i) => (
-            <li key={i}>
-              <NavLink
-                to={link}
-                className={({ isActive }) =>
-                  isActive ? "text-primary underline underline-offset-8" : ""
-                }
-              >
-                {label}
-              </NavLink>
+          {/* Member Links */}
+          {user?.role === "MEMBER" ||
+            (user?.role === "ADMIN" && (
+              <>
+                <li>
+                  <NavLink to="/properties" className={className}>
+                    Properties
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/favorites" className={className}>
+                    Favorites
+                  </NavLink>
+                </li>
+              </>
+            ))}
+
+          {/* Public Links */}
+          <li>
+            <NavLink to="/about" className={className}>
+              About
+            </NavLink>
+          </li>
+
+          {/* Admin Links */}
+          {user?.role === "ADMIN" && (
+            <>
+              <li className="px-0 mr-2 btn btn-primary btn-sm">
+                <NavLink to="/admin/properties/new">Add Property</NavLink>
+              </li>
+            </>
+          )}
+
+          {/* Login buttons */}
+          {!user ? (
+            <li className="px-0 mr-2 btn btn-primary btn-sm">
+              <NavLink to="/login">Log in</NavLink>
             </li>
-          ))}
-          <li className="px-0 mr-2 btn btn-primary btn-sm">
-            <NavLink to="/login">Log in</NavLink>
-          </li>
-          <li className="px-0 btn btn-soft btn-sm">
-            <button onClick={() => logoutClick()}>Logout</button>
-          </li>
+          ) : (
+            <li className="px-0 btn btn-soft btn-sm">
+              <button onClick={logoutClick}>Logout</button>
+            </li>
+          )}
         </ul>
       </div>
     </header>
