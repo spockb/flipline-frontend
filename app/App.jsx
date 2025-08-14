@@ -7,6 +7,9 @@ import Layout from "./components/Layout";
 import PropertyDetails from "./routes/PropertyDetails";
 import PropertyListings from "./components/PropertyListings/PropertyListings";
 import PropertyForm from "./components/PropertyForm";
+import Login from "./routes/Login";
+import AdminRoute from "./routes/AdminRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -58,48 +61,53 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route
-            path="properties"
-            element={
-              <PropertyListings
-                properties={filtered}
-                favorites={favorites}
-                setFavorites={setFavorites}
-                onFilter={handleFilter}
-              />
-            }
-          />
-          <Route
-            path="properties/:id"
-            element={
-              <PropertyDetails
-                allProperties={allProperties}
-                setAllProperties={setAllProperties}
-                property={property}
-                setProperty={setProperty}
-              />
-            }
-          />
-          <Route
-            path="favorites"
-            element={
-              <PropertyListings
-                properties={filtered.filter((p) => favorites.includes(p.id))}
-                favorites={favorites}
-                setFavorites={setFavorites}
-                onFilter={handleFilter}
-              />
-            }
-          />
-          <Route path="admin">
+          <Route path="login" element={<Login />} />
+
+          <Route element={<PrivateRoute />}>
             <Route
-              path="properties/new"
-              element={<PropertyForm mode="create" />}
+              path="properties"
+              element={
+                <PropertyListings
+                  properties={filtered}
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                  onFilter={handleFilter}
+                />
+              }
             />
             <Route
-              path="properties/:id/edit"
-              element={<PropertyForm mode="edit" initValues={property} />}
+              path="properties/:id"
+              element={
+                <PropertyDetails
+                  allProperties={allProperties}
+                  setAllProperties={setAllProperties}
+                  property={property}
+                  setProperty={setProperty}
+                />
+              }
             />
+            <Route
+              path="favorites"
+              element={
+                <PropertyListings
+                  properties={filtered.filter((p) => favorites.includes(p.id))}
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                  onFilter={handleFilter}
+                />
+              }
+            />
+
+            <Route path="admin" element={<AdminRoute />}>
+              <Route
+                path="properties/new"
+                element={<PropertyForm mode="create" />}
+              />
+              <Route
+                path="properties/:id/edit"
+                element={<PropertyForm mode="edit" initValues={property} />}
+              />
+            </Route>
           </Route>
         </Route>
       </Routes>

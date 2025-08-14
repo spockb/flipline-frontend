@@ -1,17 +1,26 @@
-import { NavLink, Link } from "react-router-dom";
-
-const links = [
-  { link: "/properties", label: "Properties" },
-  { link: "/favorites", label: "Favorites" },
-  { link: "/about", label: "About" },
-];
-
-const adminLinks = [
-  { link: "admin/properties/new", label: "Create Property" },
-  // { link: "admin/properties/:id/edit", label: "Edit Property" },
-];
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth-context";
 
 export default function Header() {
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+  const className = ({ isActive }) =>
+    isActive ? "text-primary underline underline-offset-8" : "";
+
+  const logoutClick = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch {
+      console.error("Logout failed");
+    }
+  };
+
+  const isLoading = user === undefined;
+  const isAuthed = !!user;
+  const isMember = user?.role === "MEMBER";
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <header className="z-50 shadow-sm navbar bg-base-100">
       <div className="flex-1">
@@ -22,34 +31,51 @@ export default function Header() {
           <span className="text-primary">Flip</span>Line
         </Link>
       </div>
+
       <div className="flex-none">
         <ul className="px-1 menu menu-horizontal">
-          {links.map(({ link, label }, i) => (
-            <li key={i}>
-              <NavLink
-                to={link}
-                className={({ isActive }) =>
-                  isActive ? "text-primary underline underline-offset-8" : ""
-                }
-              >
-                {label}
-              </NavLink>
-            </li>
-          ))}
+          {/* Member Links */}
+          {(isMember || isAdmin) && (
+            <>
+              <li>
+                <NavLink to="/properties" className={className}>
+                  Properties
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/favorites" className={className}>
+                  Favorites
+                </NavLink>
+              </li>
+            </>
+          )}
+
+          {/* Public Links */}
           <li>
-            <details>
-              <summary>Admin</summary>
-              <ul className="z-50 p-2 rounded-t-none bg-base-100">
-                {adminLinks.map(({ link, label }, i) => {
-                  return (
-                    <li key={i}>
-                      <Link to={link}>{label}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </details>
+            <NavLink to="/about" className={className}>
+              About
+            </NavLink>
           </li>
+
+          {/* Admin Links */}
+          {isAdmin && (
+            <>
+              <li className="px-0 mr-2 btn btn-primary btn-sm">
+                <NavLink to="/admin/properties/new">Add Property</NavLink>
+              </li>
+            </>
+          )}
+
+          {/* Auth buttons */}
+          {isLoading ? null : !isAuthed ? (
+            <li className="px-0 mr-2 btn btn-primary btn-sm">
+              <NavLink to="/login">Log in</NavLink>
+            </li>
+          ) : (
+            <li className="px-0 btn btn-soft btn-sm">
+              <button onClick={logoutClick}>Logout</button>
+            </li>
+          )}
         </ul>
       </div>
     </header>
