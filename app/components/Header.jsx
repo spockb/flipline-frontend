@@ -1,8 +1,9 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
 export default function Header() {
   const { logout, user } = useAuth();
+  const navigate = useNavigate();
   const className = ({ isActive }) =>
     isActive ? "text-primary underline underline-offset-8" : "";
 
@@ -14,6 +15,11 @@ export default function Header() {
       console.error("Logout failed");
     }
   };
+
+  const isLoading = user === undefined;
+  const isAuthed = !!user;
+  const isMember = user?.role === "MEMBER";
+  const isAdmin = user?.role === "ADMIN";
 
   return (
     <header className="z-50 shadow-sm navbar bg-base-100">
@@ -29,21 +35,20 @@ export default function Header() {
       <div className="flex-none">
         <ul className="px-1 menu menu-horizontal">
           {/* Member Links */}
-          {user?.role === "MEMBER" ||
-            (user?.role === "ADMIN" && (
-              <>
-                <li>
-                  <NavLink to="/properties" className={className}>
-                    Properties
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/favorites" className={className}>
-                    Favorites
-                  </NavLink>
-                </li>
-              </>
-            ))}
+          {(isMember || isAdmin) && (
+            <>
+              <li>
+                <NavLink to="/properties" className={className}>
+                  Properties
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/favorites" className={className}>
+                  Favorites
+                </NavLink>
+              </li>
+            </>
+          )}
 
           {/* Public Links */}
           <li>
@@ -53,7 +58,7 @@ export default function Header() {
           </li>
 
           {/* Admin Links */}
-          {user?.role === "ADMIN" && (
+          {isAdmin && (
             <>
               <li className="px-0 mr-2 btn btn-primary btn-sm">
                 <NavLink to="/admin/properties/new">Add Property</NavLink>
@@ -61,8 +66,8 @@ export default function Header() {
             </>
           )}
 
-          {/* Login buttons */}
-          {!user ? (
+          {/* Auth buttons */}
+          {isLoading ? null : !isAuthed ? (
             <li className="px-0 mr-2 btn btn-primary btn-sm">
               <NavLink to="/login">Log in</NavLink>
             </li>

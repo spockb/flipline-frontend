@@ -6,12 +6,10 @@ export const useAuth = () => useContext(AuthContext);
 export function AuthProvider({ children }) {
   const API = "http://127.0.0.1:5000";
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
-        setLoading(true);
         const res = await fetch(`${API}/api/auth/me`, {
           credentials: "include",
         });
@@ -24,8 +22,6 @@ export function AuthProvider({ children }) {
         }
       } catch {
         setUser(null);
-      } finally {
-        setLoading(false);
       }
     })();
   }, []);

@@ -1,13 +1,12 @@
-import { useNavigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
 const AdminRoute = () => {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  if (loading) return null;
+  if (user === undefined) return <div>Loading...</div>;
 
-  if (!user || user.role === "MEMBER") navigate("/");
+  if (!user || user.role === "MEMBER") return <Navigate to="/" />;
 
   if (user.role === "ADMIN") return <Outlet />;
 };
