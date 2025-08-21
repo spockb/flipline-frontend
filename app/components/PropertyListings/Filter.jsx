@@ -78,7 +78,7 @@ const Filter = ({ onFilter }) => {
         <input
           type="submit"
           className="btn btn-primary"
-          value="Filter Search"
+          value="Filter Results"
         />
         <button
           type="button"

@@ -16,7 +16,7 @@ const PropertyListings = ({
   };
 
   return (
-    <>
+    <div className="p-4">
       <Filter onFilter={onFilter} />
       {properties.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 justify-items-stretch">
@@ -35,7 +35,7 @@ const PropertyListings = ({
           criteria to see more results.
         </p>
       )}
-    </>
+    </div>
   );
 };
 

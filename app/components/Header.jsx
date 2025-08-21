@@ -68,9 +68,14 @@ export default function Header() {
 
           {/* Auth buttons */}
           {isLoading ? null : !isAuthed ? (
-            <li className="px-0 mr-2 btn btn-primary btn-sm">
-              <NavLink to="/login">Log in</NavLink>
-            </li>
+            <>
+              <li className="px-0 mr-2 btn btn-primary btn-sm">
+                <Link to="/login">Log in</Link>
+              </li>
+              <li className="px-0 btn btn-soft btn-sm">
+                <Link to="/signup">Sign up</Link>
+              </li>
+            </>
           ) : (
             <li className="px-0 btn btn-soft btn-sm">
               <button onClick={logoutClick}>Logout</button>

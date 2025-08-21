@@ -2,23 +2,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
-const Login = () => {
-  const { login } = useAuth();
+const SignUp = () => {
+  const { signup } = useAuth();
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(email, password);
+      const res = await signup(email, password, name);
       if (!res.ok) {
         navigate("/properties");
       } else {
-        console.error("Login failed");
+        console.error("Signup failed");
       }
     } catch {
-      console.error("Login failed");
+      console.error("Signup failed");
     }
   };
 
@@ -27,10 +28,37 @@ const Login = () => {
       <div className="flex items-center justify-center w-full min-h-screen">
         <div className="shadow-sm card bg-base-100 w-96">
           <div className="items-center text-center card-body">
-            <h2 className="card-title">Login</h2>
+            <h2 className="card-title">Create an account</h2>
             {/* <h3 className="card-title">{location.state.message}</h3> */}
 
             <form className="justify-center card-actions" onSubmit={onSubmit}>
+              <label className="input validator">
+                <svg
+                  className="h-[1em] opacity-50"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 64 64"
+                >
+                  <path
+                    data-name="layer1"
+                    d="M46 26c0 6.1-3.4 11.5-7 14.8V44c0 2 1 5.1 11 7a15.5 15.5 0 0 1 12 11H2a13.4 13.4 0 0 1 11-11c10-1.8 12-5 12-7v-3.2c-3.6-3.3-7-8.6-7-14.8v-9.6C18 6 25.4 2 32 2s14 4 14 14.4z"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="5"
+                    fill="none"
+                    stroke="currentColor"
+                  ></path>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="John Smith"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </label>
+              <div className="hidden validator-hint">
+                Enter valid email address
+              </div>
               <label className="input validator">
                 <svg
                   className="h-[1em] opacity-50"
@@ -96,7 +124,7 @@ const Login = () => {
               </p>
 
               <button type="submit" className="btn btn-primary">
-                Login
+                Sign up
               </button>
             </form>
           </div>
@@ -106,4 +134,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
