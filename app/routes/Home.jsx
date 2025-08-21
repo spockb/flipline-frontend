@@ -17,11 +17,11 @@ const Home = () => {
       />
       <SideBySide
         heading="Expert Support from Start to Sale"
-        subheading="Investor-focused agents. Hands-on guidance."
+        subheading="Investor-focused agent. Hands-on guidance."
         body="From acquisition to close, you'll have a licensed agent in your corner who specializes in flips. We walk every property, help estimate rehab, run comps, and guide you through offers, inspections, and resale strategy — all aligned with your ROI goals."
         imageSrc="/images/10/exterior.webp"
         imageAlt="Modern LA home ready for flip"
-        ctaText="Meet Our Team"
+        ctaText="About Us"
         ctaLink="/about"
       />
     </>

@@ -26,10 +26,10 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
-  const signup = async (email, password) => {
-    const res = await fetch(`${API}/api/auth/login`, {
+  const signup = async (email, password, name) => {
+    const res = await fetch(`${API}/api/auth/signup`, {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, name }),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
