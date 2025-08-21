@@ -10,6 +10,7 @@ import PropertyForm from "./components/PropertyForm";
 import Login from "./routes/Login";
 import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import SignUp from "./routes/Signup";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -62,6 +63,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
 
           <Route element={<PrivateRoute />}>
             <Route

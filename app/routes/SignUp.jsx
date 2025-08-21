@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
-const Login = () => {
-  const { login } = useAuth();
+const SignUp = () => {
+  const { signup } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const Login = () => {
       <div className="flex items-center justify-center w-full min-h-screen">
         <div className="shadow-sm card bg-base-100 w-96">
           <div className="items-center text-center card-body">
-            <h2 className="card-title">Login</h2>
+            <h2 className="card-title">Sign Up</h2>
             {/* <h3 className="card-title">{location.state.message}</h3> */}
 
             <form className="justify-center card-actions" onSubmit={onSubmit}>
@@ -96,7 +96,7 @@ const Login = () => {
               </p>
 
               <button type="submit" className="btn btn-primary">
-                Login
+                Sign up
               </button>
             </form>
           </div>
@@ -106,4 +106,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

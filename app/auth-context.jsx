@@ -26,6 +26,22 @@ export function AuthProvider({ children }) {
     })();
   }, []);
 
+  const signup = async (email, password) => {
+    const res = await fetch(`${API}/api/auth/login`, {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const me = await fetch(`${API}/api/auth/me`, {
+      credentials: "include",
+    });
+    if (me.ok) setUser(await me.json());
+    return true;
+  };
+
   const login = async (email, password) => {
     const res = await fetch(`${API}/api/auth/login`, {
       method: "POST",
@@ -51,7 +67,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );
