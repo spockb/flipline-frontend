@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Badge from "../components/Badge";
 import { useAuth } from "../auth-context";
 
@@ -13,6 +13,7 @@ const PropertyDetails = ({
   const params = useParams();
   const [deleteMessage, setDeleteMessage] = useState(false);
   const { user } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     const [propertyInfo] = allProperties.filter((item) => {
@@ -24,7 +25,8 @@ const PropertyDetails = ({
       const fetchData = async () => {
         try {
           const res = await fetch(
-            `http://127.0.0.1:5000/api/properties/${params.id}`
+            `http://127.0.0.1:5000/api/properties/${params.id}`,
+            { cache: "no-store" }
           );
           const data = await res.json();
           setProperty(data);
@@ -34,7 +36,7 @@ const PropertyDetails = ({
       };
       fetchData();
     }
-  }, [params.id]);
+  }, [params.id, location.search]);
 
   function formatNum(val) {
     return (val ?? 0).toLocaleString("en-US");

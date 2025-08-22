@@ -57,10 +57,7 @@ const PropertyForm = ({ initValues, mode }) => {
       }
 
       const data = await res.json();
-      navigate(`/properties/${data.id}`);
-      mode === "create"
-        ? console.log("Created property:", data)
-        : console.log("Updated property:", data);
+      navigate(`/properties/${data.id}?r=${Date.now()}`);
       return data;
     } catch (err) {
       console.error(`${fetchMethod}:`, err);
