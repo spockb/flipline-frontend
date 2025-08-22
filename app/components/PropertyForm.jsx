@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const PropertyForm = ({ initValues, mode }) => {
-  const def = initValues ? initValues : "";
+  const def = initValues ?? { images: [] };
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState(def);
 
@@ -80,18 +82,33 @@ const PropertyForm = ({ initValues, mode }) => {
                 />
               </label>
 
+              {/* Image upload */}
               <label className="w-full form-control">
                 <div className="label">
-                  <span className="label-text">Image Path</span>
+                  <span className="label-text">Cover Image</span>
                 </div>
                 <input
-                  required
-                  type="text"
-                  value={formValues.images}
-                  onChange={(e) => onFormChange({ images: e.target.value })}
-                  placeholder="/images/015/exterior.webp"
-                  className="w-full input input-bordered"
+                  type="file"
+                  accept="image/*"
+                  className="file-input file-input-bordered w-full"
+                  onChange={(e) => {
+                    const formFile = e.target.files?.[0] || null;
+                    setFile(formFile);
+                    if (formFile) {
+                      const url = URL.createObjectURL(formFile);
+                      setPreviewUrl(url);
+                    } else {
+                      setPreviewUrl("");
+                    }
+                  }}
                 />
+                {(previewUrl || formValues.images?.[0]) && (
+                  <img
+                    src={previewUrl || formValues.images?.[0]}
+                    alt="Preview"
+                    className="mt-3 w-48 h-48 object-cover rounded"
+                  />
+                )}
               </label>
 
               <label className="form-control md:col-auto">
