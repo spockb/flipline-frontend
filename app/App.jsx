@@ -33,7 +33,10 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:5000/api/properties");
+        const res = await fetch("http://127.0.0.1:5000/api/properties", {
+          credentials: "include",
+          cache: "no-store",
+        });
         const data = await res.json();
         setAllProperties(data);
       } catch (err) {

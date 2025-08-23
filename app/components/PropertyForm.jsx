@@ -49,6 +49,7 @@ const PropertyForm = ({ initValues, mode }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
 
