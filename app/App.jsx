@@ -11,6 +11,7 @@ import Login from "./routes/Login";
 import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import SignUp from "./routes/Signup";
+import { useAuth } from "./auth-context";
 
 export default function App() {
   const [allProperties, setAllProperties] = useState([]);
@@ -56,6 +57,8 @@ export default function App() {
     );
   });
 
+  const { ready } = useAuth();
+  if (!ready) return <div className="p-6">Loading…</div>;
   return (
     <BrowserRouter>
       <Routes>

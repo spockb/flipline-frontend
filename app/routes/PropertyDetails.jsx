@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Badge from "../components/Badge";
 import { useAuth } from "../auth-context";
 
@@ -13,28 +13,41 @@ const PropertyDetails = ({
   const params = useParams();
   const [deleteMessage, setDeleteMessage] = useState(false);
   const { user } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
-    const [propertyInfo] = allProperties.filter((item) => {
-      if (item.id == params.id) return item;
-    });
-    if (propertyInfo) {
-      setProperty(propertyInfo);
-    } else {
-      const fetchData = async () => {
-        try {
-          const res = await fetch(
-            `http://127.0.0.1:5000/api/properties/${params.id}`
-          );
-          const data = await res.json();
-          setProperty(data);
-        } catch (err) {
+    const search = new URLSearchParams(location.search);
+    const force = search.has("r");
+
+    if (!force && Array.isArray(allProperties)) {
+      const local = allProperties.find(
+        (item) => String(item.id) === String(params.id)
+      );
+      if (local) {
+        setProperty(local);
+        return;
+      }
+    }
+
+    const ctrl = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:5000/api/properties/${params.id}`,
+          { cache: "no-store", signal: ctrl.signal }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        setProperty(data);
+      } catch (err) {
+        if (err.name !== "AbortError") {
           console.error("Failed to fetch property details:", err);
         }
-      };
-      fetchData();
-    }
-  }, [params.id]);
+      }
+    })();
+
+    return () => ctrl.abort();
+  }, [params.id, location.search, allProperties]);
 
   function formatNum(val) {
     return (val ?? 0).toLocaleString("en-US");

@@ -2,11 +2,41 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const PropertyForm = ({ initValues, mode }) => {
-  const def = initValues ? initValues : "";
+  const def = initValues ?? { images: [] };
+  const [saving, setSaving] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState(def);
 
   const params = useParams();
+
+  async function presign(file) {
+    const ext = file.name.split(".").pop();
+    const res = await fetch(`http://127.0.0.1:5000/api/uploads/presign`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contentType: file.type, ext }),
+    });
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      throw new Error(`Presign failed (${res.status}) ${err}`);
+    }
+    return res.json();
+  }
+
+  async function uploadToR2(file) {
+    const { url, publicUrl } = await presign(file);
+    const put = await fetch(url, {
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+      body: file,
+    });
+    if (!put.ok) throw new Error(`Upload failed (${put.status})`);
+    return publicUrl;
+  }
 
   const createProperty = async (payload) => {
     const id = params.id;
@@ -27,19 +57,36 @@ const PropertyForm = ({ initValues, mode }) => {
       }
 
       const data = await res.json();
-      navigate(`/properties/${data.id}`);
-      mode === "create"
-        ? console.log("Created property:", data)
-        : console.log("Updated property:", data);
+      navigate(`/properties/${data.id}?r=${Date.now()}`);
       return data;
     } catch (err) {
       console.error(`${fetchMethod}:`, err);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createProperty(formValues);
+    setSaving(true);
+    setErrMsg("");
+
+    try {
+      let imagesArray = Array.isArray(formValues.images)
+        ? formValues.images
+        : [];
+
+      if (file) {
+        const url = await uploadToR2(file);
+        imagesArray = [url, ...imagesArray.slice(1)];
+      }
+
+      const payload = { ...formValues, images: imagesArray };
+      await createProperty(payload);
+    } catch (err) {
+      console.error(err);
+      setErrMsg(err.message || "Save failed");
+    } finally {
+      setSaving(false);
+    }
   };
 
   function onFormChange(val) {
@@ -80,18 +127,33 @@ const PropertyForm = ({ initValues, mode }) => {
                 />
               </label>
 
+              {/* Image upload */}
               <label className="w-full form-control">
                 <div className="label">
-                  <span className="label-text">Image Path</span>
+                  <span className="label-text">Cover Image</span>
                 </div>
                 <input
-                  required
-                  type="text"
-                  value={formValues.images}
-                  onChange={(e) => onFormChange({ images: e.target.value })}
-                  placeholder="/images/015/exterior.webp"
-                  className="w-full input input-bordered"
+                  type="file"
+                  accept="image/*"
+                  className="file-input file-input-bordered w-full"
+                  onChange={(e) => {
+                    const formFile = e.target.files?.[0] || null;
+                    setFile(formFile);
+                    if (formFile) {
+                      const url = URL.createObjectURL(formFile);
+                      setPreviewUrl(url);
+                    } else {
+                      setPreviewUrl("");
+                    }
+                  }}
                 />
+                {(previewUrl || formValues.images?.[0]) && (
+                  <img
+                    src={previewUrl || formValues.images?.[0]}
+                    alt="Preview"
+                    className="mt-3 w-48 h-48 object-cover rounded"
+                  />
+                )}
               </label>
 
               <label className="form-control md:col-auto">
@@ -297,7 +359,12 @@ const PropertyForm = ({ initValues, mode }) => {
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary">
+          {errMsg && <p className="text-error">{errMsg}</p>}
+          <button
+            type="submit"
+            className={`btn btn-primary ${saving ? "loading" : ""}`}
+            disabled={saving}
+          >
             {mode === "create" ? "Add" : "Save"} Property
           </button>
         </div>

@@ -6,14 +6,17 @@ export const useAuth = () => useContext(AuthContext);
 export function AuthProvider({ children }) {
   const API = "http://127.0.0.1:5000";
   const [user, setUser] = useState(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    let alive = true;
     (async () => {
       try {
         const res = await fetch(`${API}/api/auth/me`, {
           credentials: "include",
+          cache: "no-store",
         });
-
+        if (!alive) return;
         if (res.ok) {
           const data = await res.json();
           setUser(data);
@@ -21,9 +24,14 @@ export function AuthProvider({ children }) {
           setUser(null);
         }
       } catch {
-        setUser(null);
+        if (alive) setUser(null);
+      } finally {
+        if (alive) setReady(true);
       }
     })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   const signup = async (email, password, name) => {
@@ -67,7 +75,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup }}>
+    <AuthContext.Provider value={{ user, login, logout, signup, ready }}>
       {children}
     </AuthContext.Provider>
   );
