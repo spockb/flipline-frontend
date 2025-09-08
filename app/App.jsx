@@ -12,8 +12,11 @@ import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import SignUp from "./routes/Signup";
 import { useAuth } from "./auth-context";
+import { useFavorites } from "./fav-context";
 
 export default function App() {
+  const { user, ready } = useAuth();
+  const { favIds } = useFavorites();
   const [allProperties, setAllProperties] = useState([]);
   const [property, setProperty] = useState("");
   const [filters, setFilters] = useState({
@@ -21,30 +24,29 @@ export default function App() {
     minBathrooms: "",
     minSquareFootage: "",
   });
-  const [favorites, setFavorites] = useState(() => {
-    return JSON.parse(localStorage.getItem("favorites")) || [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   // Fetch Data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("http://127.0.0.1:5000/api/properties", {
-          credentials: "include",
-          cache: "no-store",
-        });
-        const data = await res.json();
-        setAllProperties(data);
-      } catch (err) {
-        console.error("Failed to fetch properties:", err);
-      }
-    };
-    fetchData();
-  }, []);
+    if (!ready) return;
+
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const res = await fetch("http://127.0.0.1:5000/api/properties", {
+            credentials: "include",
+            cache: "no-store",
+          });
+          const data = await res.json();
+          setAllProperties(data);
+        } catch (err) {
+          console.error("Failed to fetch properties:", err);
+        }
+      };
+      fetchData();
+    } else {
+      setAllProperties([]);
+    }
+  }, [user, ready]);
 
   // Filter logic
   const handleFilter = (filterVals) => setFilters(filterVals);
@@ -60,8 +62,8 @@ export default function App() {
     );
   });
 
-  const { ready } = useAuth();
-  if (!ready) return <div className="p-6">Loading…</div>;
+  const favorites = filtered.filter((p) => favIds.has(p.id));
+
   return (
     <BrowserRouter>
       <Routes>
@@ -77,8 +79,8 @@ export default function App() {
               element={
                 <PropertyListings
                   properties={filtered}
-                  favorites={favorites}
-                  setFavorites={setFavorites}
+                  // favorites={favorites}
+                  // setFavorites={setFavorites}
                   onFilter={handleFilter}
                 />
               }
@@ -98,9 +100,7 @@ export default function App() {
               path="favorites"
               element={
                 <PropertyListings
-                  properties={filtered.filter((p) => favorites.includes(p.id))}
-                  favorites={favorites}
-                  setFavorites={setFavorites}
+                  properties={favorites}
                   onFilter={handleFilter}
                 />
               }

@@ -1,19 +1,9 @@
 import Filter from "./Filter.jsx";
 import PropertyCard from "./PropertyCard.jsx";
+import { useFavorites } from "../../fav-context.jsx";
 
-const PropertyListings = ({
-  properties,
-  favorites,
-  setFavorites,
-  onFilter,
-}) => {
-  const handleFavoritesClick = (propertyId) => {
-    const isFavorited = favorites.includes(propertyId);
-    const updatedFavorites = isFavorited
-      ? favorites.filter((id) => id !== propertyId)
-      : [...favorites, propertyId];
-    setFavorites(updatedFavorites);
-  };
+const PropertyListings = ({ properties = [], onFilter }) => {
+  const { has, toggle } = useFavorites();
 
   return (
     <div className="p-4">
@@ -24,8 +14,8 @@ const PropertyListings = ({
             <PropertyCard
               key={property.id}
               property={property}
-              isFavorited={favorites.includes(property.id)}
-              onFavoriteClick={() => handleFavoritesClick(property.id)}
+              isFavorited={has(property.id)}
+              onFavoriteClick={() => toggle(property.id)}
             />
           ))}
         </div>

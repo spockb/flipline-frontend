@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 import { useAuth } from "./auth-context";
 
 const API = "http://127.0.0.1:5000";
@@ -91,7 +91,7 @@ export function FavoritesProvider({ children }) {
   }
 
   const value = useMemo(
-    () => ({ has, toggle, loading, count: ids.size, ids }),
+    () => ({ has, toggle, loading, count: favIds.size, favIds }),
     [favIds, loading]
   );
 
