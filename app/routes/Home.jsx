@@ -1,7 +1,10 @@
 import Hero from "../components/Hero";
 import SideBySide from "../components/SideBySide";
+import { useAuth } from "../auth-context";
 
 const Home = () => {
+  const { user } = useAuth();
+
   return (
     <>
       <Hero />
@@ -11,7 +14,7 @@ const Home = () => {
         body="Our team filters through hundreds of properties across LA each week. You get only the homes with real flip potential — solid comps, realistic rehab scope, and high resale value. Every deal is vetted by an agent who works exclusively with investors and understands your bottom line."
         imageSrc="/images/1/exterior.webp"
         imageAlt="Modern LA home ready for flip"
-        ctaText="View Our Properties"
+        ctaText={user ? "View Our Properties" : "Log in to View Properties"}
         ctaLink="/properties"
         reverse={true}
       />

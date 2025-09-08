@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../auth-context";
 
 const Hero = () => {
+  const { user } = useAuth();
+
   return (
     <section className="bg-base-200">
       <div className="max-w-6xl px-6 py-24 mx-auto text-center">
@@ -22,8 +25,11 @@ const Hero = () => {
         </p>
 
         <div className="flex justify-center">
-          <Link to="/properties" className="btn btn-primary btn-lg">
-            View Properties
+          <Link
+            to={user ? "/properties" : "/login"}
+            className="btn btn-primary btn-lg"
+          >
+            {user ? "View Properties" : "Log in to View Properties"}
           </Link>
         </div>
       </div>
