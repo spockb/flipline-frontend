@@ -75,18 +75,21 @@ const Filter = ({ onFilter }) => {
           </select>
         </fieldset>
 
-        <input
-          type="submit"
-          className="btn btn-primary"
-          value="Filter Results"
-        />
-        <button
-          type="button"
-          onClick={handleReset}
-          className="btn btn-sm btn-ghost"
-        >
-          Reset Filters
-        </button>
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend opacity-0">Actions</legend>
+          <div className="flex items-center gap-2">
+            <button type="submit" className="btn btn-primary btn-md">
+              Filter Results
+            </button>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="btn btn-ghost btn-md"
+            >
+              Reset Filters
+            </button>
+          </div>
+        </fieldset>
       </form>
     </div>
   );
