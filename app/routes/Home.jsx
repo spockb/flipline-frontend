@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import SideBySide from "../components/SideBySide";
 import FAQ from "../components/FAQ";
+import CTA from "../components/CTA";
 import { useAuth } from "../auth-context";
 
 const Home = () => {
@@ -29,6 +30,7 @@ const Home = () => {
         ctaLink="/about"
       />
       <FAQ imageSrc="/images/1/exterior.webp" imageAlt="Modern LA Home" />
+      {!user && <CTA />}
     </>
   );
 };
