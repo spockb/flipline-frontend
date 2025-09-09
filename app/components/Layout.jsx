@@ -9,6 +9,7 @@ function Layout() {
       <main className="container max-w-screen-xl mx-auto min-h-[calc(100svh_-_4rem)]">
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 }
