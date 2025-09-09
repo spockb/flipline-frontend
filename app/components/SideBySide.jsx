@@ -9,7 +9,7 @@ const SideBySide = ({
   ctaText,
   ctaLink,
   reverse = false,
-  backgroundClass = "bg-base-200",
+  backgroundClass = "bg-base-100",
 }) => {
   return (
     <section className={`w-full ${backgroundClass} py-16 px-4`}>
