@@ -17,11 +17,8 @@ A full-stack web application built with React that connects real estate investor
 
 ### Property Management
 
-- Browse and filter property listings
-- Detailed property view with image galleries
-- Advanced search with multiple criteria (bedrooms, bathrooms, square footage)
-- Favorites system with persistent storage
-- Property sharing functionality
+- Browse and filter property listings with multiple criteria (bedrooms, bathrooms, square footage)
+- Favorites system with persistent storage per user and optimistic rendering
 
 ### Admin Dashboard
 
