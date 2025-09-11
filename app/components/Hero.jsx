@@ -5,7 +5,7 @@ const Hero = () => {
   const { user } = useAuth();
 
   return (
-    <section className="bg-base-200">
+    <section>
       <div className="max-w-6xl px-6 py-24 mx-auto text-center">
         <p className="mb-4 text-sm font-semibold tracking-widest uppercase text-primary">
           Exclusive Deals. Zero Noise.
