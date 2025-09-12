@@ -10,7 +10,7 @@ import PropertyForm from "./components/PropertyForm";
 import Login from "./routes/Login";
 import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
-import SignUp from "./routes/Signup";
+import SignUp from "./routes/SignUp";
 import { useAuth } from "./auth-context";
 import { useFavorites } from "./fav-context";
 
@@ -32,10 +32,15 @@ export default function App() {
     if (user) {
       const fetchData = async () => {
         try {
-          const res = await fetch("http://127.0.0.1:5000/api/properties", {
-            credentials: "include",
-            cache: "no-store",
-          });
+          const res = await fetch(
+            `${
+              import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
+            }/api/properties`,
+            {
+              credentials: "include",
+              cache: "no-store",
+            }
+          );
           const data = await res.json();
           setAllProperties(data);
         } catch (err) {
