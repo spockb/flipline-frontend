@@ -69,11 +69,6 @@ export default function App() {
 
   const favorites = filtered.filter((p) => favIds.has(p.id));
 
-  // DEBUG
-  // in a module that runs on load (e.g., main.jsx)
-  window.__API_BASE__ = import.meta.env.VITE_API_URL;
-  console.log("[debug] __API_BASE__ =", window.__API_BASE__);
-
   return (
     <BrowserRouter>
       <Routes>
