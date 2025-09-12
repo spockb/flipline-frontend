@@ -14,12 +14,17 @@ const PropertyForm = ({ initValues, mode }) => {
 
   async function presign(file) {
     const ext = file.name.split(".").pop();
-    const res = await fetch(`http://127.0.0.1:5000/api/uploads/presign`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contentType: file.type, ext }),
-    });
+    const res = await fetch(
+      `${
+        import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
+      }/api/uploads/presign`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentType: file.type, ext }),
+      }
+    );
     if (!res.ok) {
       const err = await res.text().catch(() => "");
       throw new Error(`Presign failed (${res.status}) ${err}`);
@@ -40,7 +45,9 @@ const PropertyForm = ({ initValues, mode }) => {
 
   const createProperty = async (payload) => {
     const id = params.id;
-    const base = "http://127.0.0.1:5000/api/properties";
+    const base = `${
+      import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
+    }/api/properties`;
     const url = mode === "create" ? base : `${base}/${id}`;
     const fetchMethod = mode === "create" ? "POST" : "PUT";
     try {

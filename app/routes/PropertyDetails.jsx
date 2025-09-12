@@ -43,7 +43,9 @@ const PropertyDetails = ({
     (async () => {
       try {
         const res = await fetch(
-          `http://127.0.0.1:5000/api/properties/${params.id}`,
+          `${
+            import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
+          }/api/properties/${params.id}`,
           { credentials: "include", cache: "no-store", signal: ctrl.signal }
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -66,7 +68,9 @@ const PropertyDetails = ({
   const deleteProperty = async () => {
     try {
       const res = await fetch(
-        `http://127.0.0.1:5000/api/properties/${params.id}`,
+        `${
+          import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
+        }/api/properties/${params.id}`,
         { method: "DELETE", headers: { Accept: "application/json" } }
       );
 

@@ -1,8 +1,12 @@
 {
-  "name": "real-estate-site",
+  "name": "flipline-portfolio-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": "20.14.0"
+  },
+  "packageManager": "npm@10.8.2",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
