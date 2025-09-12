@@ -25,9 +25,6 @@ export default function App() {
     minSquareFootage: "",
   });
 
-  // DEBUG
-  console.log("[debug] VITE_API_URL =", import.meta.env.VITE_API_URL);
-
   // Fetch Data
   useEffect(() => {
     if (!ready) return;
