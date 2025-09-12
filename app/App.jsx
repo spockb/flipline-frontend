@@ -10,7 +10,7 @@ import PropertyForm from "./components/PropertyForm";
 import Login from "./routes/Login";
 import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
-import SignUp from "./routes/Signup";
+import SignUp from "./routes/SignUp";
 import { useAuth } from "./auth-context";
 import { useFavorites } from "./fav-context";
 
