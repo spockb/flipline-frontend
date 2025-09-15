@@ -4,7 +4,7 @@ A full-stack web application built with React that connects real estate investor
 
 ## Live Demo
 
-[View Live Demo](https://flipline.netlify.app)
+[View Live Demo](https://flipline.vercel.app)
 
 ## Features
 
