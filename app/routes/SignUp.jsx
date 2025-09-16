@@ -123,7 +123,10 @@ const SignUp = () => {
                 Must be more than 8 characters
               </p>
 
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                className="btn btn-primary w-full min-h-[44px]"
+              >
                 Sign up
               </button>
             </form>
