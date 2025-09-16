@@ -35,6 +35,74 @@ const Login = () => {
               </div>
             )}
 
+            {/* Demo Accounts */}
+            <div className="w-full space-y-4">
+              <div className="alert">
+                <div className="flex flex-col w-full gap-2">
+                  <div className="font-semibold">Demo Accounts</div>
+                  <div className="text-sm opacity-80">
+                    Use these to explore. Tap Autofill to prefill the form.
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <div>
+                      <span className="font-medium">Member</span>:
+                      <span className="opacity-80">
+                        {import.meta.env.VITE_DEMO_MEMBER_EMAIL ||
+                          "member@example.com"}
+                        /
+                        {import.meta.env.VITE_DEMO_MEMBER_PASSWORD ||
+                          "member123"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-xs"
+                      onClick={() => {
+                        setEmail(
+                          import.meta.env.VITE_DEMO_MEMBER_EMAIL ||
+                            "member@example.com"
+                        );
+                        setPassword(
+                          import.meta.env.VITE_DEMO_MEMBER_PASSWORD ||
+                            "member123"
+                        );
+                      }}
+                    >
+                      Autofill
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <div>
+                      <span className="font-medium">Admin</span>:
+                      <span className="opacity-80">
+                        {import.meta.env.VITE_DEMO_ADMIN_EMAIL ||
+                          "admin@example.com"}
+                        /
+                        {import.meta.env.VITE_DEMO_ADMIN_PASSWORD || "admin123"}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-xs"
+                      onClick={() => {
+                        setEmail(
+                          import.meta.env.VITE_DEMO_ADMIN_EMAIL ||
+                            "admin@example.com"
+                        );
+                        setPassword(
+                          import.meta.env.VITE_DEMO_ADMIN_PASSWORD || "admin123"
+                        );
+                      }}
+                    >
+                      Autofill
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <form
               className="justify-center w-full card-actions"
               onSubmit={onSubmit}

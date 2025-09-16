@@ -8,7 +8,7 @@ const About = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="w-full bg-base-100 py-24 px-4">
+      <section className="w-full px-4 py-24 bg-base-100">
         <div className="container mx-auto text-center">
           <p className="mb-4 text-sm font-semibold tracking-widest uppercase text-primary">
             About FlipLine
@@ -31,7 +31,7 @@ const About = () => {
         heading="Our Story"
         subheading="Built by Investors, for Investors"
         body="FlipLine was born from a simple observation: too many investors waste time sifting through endless listings of mediocre properties. As experienced real estate professionals and investors ourselves, we knew there had to be a better way. We created FlipLine to provide curated, high-potential investment opportunities that serious investors can trust and act on quickly."
-        imageSrc="/images/1/exterior.webp"
+        imageSrc="/images/5/exterior.webp"
         imageAlt="Modern real estate investment property"
         ctaText="View Our Properties"
         ctaLink="/properties"
@@ -63,7 +63,7 @@ const About = () => {
 
       {/* FAQ Section */}
       <FAQ
-        imageSrc="/images/4/exterior.webp"
+        imageSrc="/images/1/exterior.webp"
         imageAlt="Frequently asked questions about real estate investing"
         reverse={false}
       />
