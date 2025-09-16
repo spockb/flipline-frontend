@@ -25,9 +25,9 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center w-full min-h-screen p-4">
-        <div className="w-full max-w-md shadow-sm card bg-base-100">
-          <div className="items-center text-center card-body">
+      <div className="flex items-center justify-center w-full min-h-screen p-4 sm:p-6">
+        <div className="w-full max-w-md shadow-sm card bg-base-100 rounded-xl">
+          <div className="items-center text-center card-body gap-4 sm:gap-6">
             <h2 className="card-title">Login</h2>
             {error && (
               <div className="alert alert-error">
@@ -38,16 +38,16 @@ const Login = () => {
             {/* Demo Accounts */}
             <div className="w-full space-y-4">
               <div className="alert">
-                <div className="flex flex-col w-full gap-2">
+                <div className="flex flex-col w-full gap-3">
                   <div className="font-semibold">Demo Accounts</div>
                   <div className="text-sm opacity-80">
                     Use these to explore. Tap Autofill to prefill the form.
                   </div>
 
-                  <div className="flex flex-col items-center justify-between text-sm sm:flex-row">
-                    <div>
+                  <div className="flex w-full flex-col items-start justify-between gap-2 text-sm sm:flex-row sm:items-center">
+                    <div className="w-full text-left sm:w-auto">
                       <span className="font-medium">Member</span>:
-                      <span className="opacity-80">
+                      <span className="opacity-80 break-all text-xs sm:text-sm">
                         {import.meta.env.VITE_DEMO_MEMBER_EMAIL ||
                           "member@example.com"}
                         /
@@ -57,7 +57,7 @@ const Login = () => {
                     </div>
                     <button
                       type="button"
-                      className="btn btn-ghost btn-xs"
+                      className="btn btn-ghost btn-sm min-h-[40px]"
                       onClick={() => {
                         setEmail(
                           import.meta.env.VITE_DEMO_MEMBER_EMAIL ||
@@ -73,10 +73,10 @@ const Login = () => {
                     </button>
                   </div>
 
-                  <div className="flex flex-col items-center justify-between text-sm sm:flex-row">
-                    <div>
+                  <div className="flex w-full flex-col items-start justify-between gap-2 text-sm sm:flex-row sm:items-center">
+                    <div className="w-full text-left sm:w-auto">
                       <span className="font-medium">Admin</span>:
-                      <span className="opacity-80">
+                      <span className="opacity-80 break-all text-xs sm:text-sm">
                         {import.meta.env.VITE_DEMO_ADMIN_EMAIL ||
                           "admin@example.com"}
                         /
@@ -85,7 +85,7 @@ const Login = () => {
                     </div>
                     <button
                       type="button"
-                      className="btn btn-ghost btn-xs"
+                      className="btn btn-ghost btn-sm min-h-[40px]"
                       onClick={() => {
                         setEmail(
                           import.meta.env.VITE_DEMO_ADMIN_EMAIL ||
@@ -108,7 +108,7 @@ const Login = () => {
               onSubmit={onSubmit}
             >
               <div className="w-full space-y-4">
-                <label className="input validator">
+                <label className="input validator min-h-[48px]">
                   <svg
                     className="h-[1em] opacity-50"
                     xmlns="http://www.w3.org/2000/svg"
@@ -131,14 +131,18 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full"
+                    className="w-full text-base min-h-[44px]"
+                    inputMode="email"
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    autoCorrect="off"
                   />
                 </label>
                 <div className="hidden validator-hint">
                   Enter valid email address
                 </div>
 
-                <label className="input validator">
+                <label className="input validator min-h-[48px]">
                   <svg
                     className="h-[1em] opacity-50"
                     xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +171,10 @@ const Login = () => {
                     required
                     placeholder="Password"
                     minLength="8"
-                    className="w-full"
+                    className="w-full text-base min-h-[44px]"
+                    autoComplete="current-password"
+                    autoCapitalize="none"
+                    autoCorrect="off"
                   />
                 </label>
                 <p className="hidden validator-hint">
@@ -176,7 +183,7 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-primary w-full min-h-[44px]"
+                  className="btn btn-primary w-full min-h-[48px] text-base"
                 >
                   Login
                 </button>
