@@ -44,7 +44,7 @@ const Login = () => {
                     Use these to explore. Tap Autofill to prefill the form.
                   </div>
 
-                  <div className="flex flex-row items-center justify-between text-sm sm:flex-col">
+                  <div className="flex flex-col items-center justify-between text-sm sm:flex-row">
                     <div>
                       <span className="font-medium">Member</span>:
                       <span className="opacity-80">
@@ -73,7 +73,7 @@ const Login = () => {
                     </button>
                   </div>
 
-                  <div className="flex flex-row items-center justify-between text-sm sm:flex-col">
+                  <div className="flex flex-col items-center justify-between text-sm sm:flex-row">
                     <div>
                       <span className="font-medium">Admin</span>:
                       <span className="opacity-80">
