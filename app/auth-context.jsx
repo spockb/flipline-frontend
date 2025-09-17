@@ -71,7 +71,13 @@ export function AuthProvider({ children }) {
       method: "POST",
       credentials: "include",
     });
-    setUser(null);
+
+    if (res.ok) {
+      setUser(null);
+    } else {
+      console.error("Logout failed on server", res.status);
+      setUser(null);
+    }
   };
 
   return (
