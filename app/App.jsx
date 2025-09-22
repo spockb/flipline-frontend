@@ -106,7 +106,7 @@ export default function App() {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
-  const currentItems = allProperties.slice(firstItemIndex, lastItemIndex);
+  const currentItems = filtered.slice(firstItemIndex, lastItemIndex);
 
   const favoritesTotalItems = filteredFavorites.length;
   const favoritesTotalPages = Math.ceil(
