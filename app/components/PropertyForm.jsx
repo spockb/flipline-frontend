@@ -15,9 +15,7 @@ const PropertyForm = ({ initValues, mode }) => {
   async function presign(file) {
     const ext = file.name.split(".").pop();
     const res = await fetch(
-      `${
-        import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
-      }/api/uploads/presign`,
+      `${import.meta.env.VITE_API_URL || ""}/api/uploads/presign`,
       {
         method: "POST",
         credentials: "include",
@@ -45,9 +43,7 @@ const PropertyForm = ({ initValues, mode }) => {
 
   const createProperty = async (payload) => {
     const id = params.id;
-    const base = `${
-      import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
-    }/api/properties`;
+    const base = `${import.meta.env.VITE_API_URL || ""}/api/properties`;
     const url = mode === "create" ? base : `${base}/${id}`;
     const fetchMethod = mode === "create" ? "POST" : "PUT";
     try {

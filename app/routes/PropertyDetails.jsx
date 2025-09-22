@@ -43,9 +43,7 @@ const PropertyDetails = ({
     (async () => {
       try {
         const res = await fetch(
-          `${
-            import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
-          }/api/properties/${params.id}`,
+          `${import.meta.env.VITE_API_URL || ""}/api/properties/${params.id}`,
           { credentials: "include", cache: "no-store", signal: ctrl.signal }
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
