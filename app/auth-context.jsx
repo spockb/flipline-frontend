@@ -67,11 +67,22 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await fetch(`${API}/api/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-    setUser(null);
+    try {
+      const res = await fetch(`${API}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        setUser(null);
+      } else {
+        console.error("Logout failed on server", res.status);
+        setUser(null);
+      }
+    } catch (err) {
+      console.error("Logout network error:", err);
+      setUser(null);
+    }
   };
 
   return (

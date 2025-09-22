@@ -71,7 +71,11 @@ const PropertyDetails = ({
         `${
           import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
         }/api/properties/${params.id}`,
-        { method: "DELETE", headers: { Accept: "application/json" } }
+        {
+          method: "DELETE",
+          headers: { Accept: "application/json" },
+          credentials: "include",
+        }
       );
 
       if (res.ok) {

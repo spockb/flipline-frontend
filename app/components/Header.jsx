@@ -22,7 +22,7 @@ export default function Header() {
   const isAdmin = user?.role === "ADMIN";
 
   return (
-    <header className="z-50 shadow-sm navbar bg-base-100">
+    <header className="sticky top-0 z-50 shadow-sm navbar bg-base-100">
       <div className="flex-1">
         <Link
           to="/"

@@ -25,14 +25,17 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center w-full min-h-screen">
-        <div className="shadow-sm card bg-base-100 w-96">
-          <div className="items-center text-center card-body">
+      <div className="flex items-center justify-center w-full min-h-screen p-4 sm:p-6">
+        <div className="w-full max-w-md shadow-sm card bg-base-100 rounded-xl">
+          <div className="items-center text-center card-body gap-4 sm:gap-6">
             <h2 className="card-title">Create an account</h2>
             {/* <h3 className="card-title">{location.state.message}</h3> */}
 
-            <form className="justify-center card-actions" onSubmit={onSubmit}>
-              <label className="input validator">
+            <form
+              className="justify-center w-full card-actions"
+              onSubmit={onSubmit}
+            >
+              <label className="input validator min-h-[48px]">
                 <svg
                   className="h-[1em] opacity-50"
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,12 +57,16 @@ const SignUp = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  className="w-full text-base min-h-[44px]"
+                  autoComplete="name"
+                  autoCapitalize="words"
+                  autoCorrect="off"
                 />
               </label>
               <div className="hidden validator-hint">
                 Enter valid email address
               </div>
-              <label className="input validator">
+              <label className="input validator min-h-[48px]">
                 <svg
                   className="h-[1em] opacity-50"
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,13 +89,18 @@ const SignUp = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  className="w-full text-base min-h-[44px]"
+                  inputMode="email"
+                  autoComplete="email"
+                  autoCapitalize="none"
+                  autoCorrect="off"
                 />
               </label>
               <div className="hidden validator-hint">
                 Enter valid email address
               </div>
 
-              <label className="input validator">
+              <label className="input validator min-h-[48px]">
                 <svg
                   className="h-[1em] opacity-50"
                   xmlns="http://www.w3.org/2000/svg"
@@ -117,13 +129,20 @@ const SignUp = () => {
                   required
                   placeholder="Password"
                   minLength="8"
+                  className="w-full text-base min-h-[44px]"
+                  autoComplete="new-password"
+                  autoCapitalize="none"
+                  autoCorrect="off"
                 />
               </label>
               <p className="hidden validator-hint">
                 Must be more than 8 characters
               </p>
 
-              <button type="submit" className="btn btn-primary">
+              <button
+                type="submit"
+                className="btn btn-primary w-full min-h-[48px] text-base"
+              >
                 Sign up
               </button>
             </form>
