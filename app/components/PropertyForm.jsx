@@ -5,8 +5,8 @@ const PropertyForm = ({ initValues, mode }) => {
   const def = initValues ?? { images: [] };
   const [saving, setSaving] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [files, setFiles] = useState([]);
+  const [previewUrls, setPreviewUrls] = useState([]);
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState(def);
 
@@ -102,6 +102,26 @@ const PropertyForm = ({ initValues, mode }) => {
       }
     });
   }
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files) || [];
+    const newPreviewUrls = selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
+    setFiles(selectedFiles);
+    setPreviewUrls(newPreviewUrls);
+  };
+
+  const removeImage = (i) => {
+    const newFiles = files.filter((_, index) => index !== i);
+    setFiles(newFiles);
+    const newPreviewUrls = previewUrls.filter((_, index) => index !== i);
+    setPreviewUrls(newPreviewUrls);
+  };
+
+  const removeExistingImage = (i) => {
+    const newImages = formValues.images.filter((_, index) => index !== i);
+    setFormValues((p) => ({ ...p, images: newImages }));
+  };
 
   return (
     <>
@@ -134,29 +154,64 @@ const PropertyForm = ({ initValues, mode }) => {
               {/* Image upload */}
               <label className="w-full form-control">
                 <div className="label">
-                  <span className="label-text">Cover Image</span>
+                  <span className="label-text">Property Images</span>
                 </div>
+
                 <input
                   type="file"
                   accept="image/*"
+                  multiple
                   className="file-input file-input-bordered w-full"
-                  onChange={(e) => {
-                    const formFile = e.target.files?.[0] || null;
-                    setFile(formFile);
-                    if (formFile) {
-                      const url = URL.createObjectURL(formFile);
-                      setPreviewUrl(url);
-                    } else {
-                      setPreviewUrl("");
-                    }
-                  }}
+                  onChange={handleFileChange}
                 />
-                {(previewUrl || formValues.images?.[0]) && (
-                  <img
-                    src={previewUrl || formValues.images?.[0]}
-                    alt="Preview"
-                    className="mt-3 w-48 h-48 object-cover rounded"
-                  />
+
+                {/* Show new uploads */}
+                {(previewUrls.length > 0 || formValues.images?.length > 0) && (
+                  <div className="mt-4">
+                    <h4 className="text-sm font-medium mb-2">
+                      Image Previews:
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {previewUrls.map((url, i) => (
+                        <div key={i} className="relative">
+                          <img
+                            src={url}
+                            alt={`Preview ${i + 1}`}
+                            className="w-full h-24 object-cover rounded border"
+                          />
+                          <button
+                            onClick={() => removeImage(i)}
+                            className="absolute -top-2 -right-2 btn btn-xs btn-circle btn-error"
+                          >
+                            x
+                          </button>
+                        </div>
+                      ))}
+
+                      {/* Show existing images */}
+                      {formValues.images?.map((url, i) => (
+                        <div key={`existing-${i}`} className="relative">
+                          <img
+                            src={url}
+                            alt={`Existing image ${i + 1}`}
+                            className="w-full h-24 object-cover rounded border"
+                          />
+                          <div className="absolute -top-2 -right-2">
+                            <span className=" badge badge-sm badge-info">
+                              Existing
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => removeExistingImage(i)}
+                              className="btn btn-xs btn-circle btn-error"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </label>
 
