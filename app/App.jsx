@@ -17,9 +17,23 @@ import { useFavorites } from "./fav-context";
 export default function App() {
   const { user, ready } = useAuth();
   const { favIds } = useFavorites();
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [favoritesCurrentPage, setFavoritesCurrentPage] = useState(1);
+  const [favoritesItemsPerPage] = useState(6);
+
+  // Properties and filters
   const [allProperties, setAllProperties] = useState([]);
   const [property, setProperty] = useState("");
   const [filters, setFilters] = useState({
+    minBedrooms: "",
+    minBathrooms: "",
+    minSquareFootage: "",
+  });
+
+  const [favoritesFilters, setFavoritesFilters] = useState({
     minBedrooms: "",
     minBathrooms: "",
     minSquareFootage: "",
@@ -33,9 +47,7 @@ export default function App() {
       const fetchData = async () => {
         try {
           const res = await fetch(
-            `${
-              import.meta.env.VITE_API_URL || "http://127.0.0.1:5000"
-            }/api/properties`,
+            `${import.meta.env.VITE_API_URL || ""}/api/properties`,
             {
               credentials: "include",
               cache: "no-store",
@@ -54,7 +66,16 @@ export default function App() {
   }, [user, ready]);
 
   // Filter logic
-  const handleFilter = (filterVals) => setFilters(filterVals);
+  const handleFilter = (filterVals) => {
+    setFilters(filterVals);
+    setCurrentPage(1);
+  };
+
+  const handleFavoritesFilter = (filterVals) => {
+    setFavoritesFilters(filterVals);
+    setFavoritesCurrentPage(1);
+  };
+
   const minBeds = Number(filters.minBedrooms) || 0;
   const minBaths = Number(filters.minBathrooms) || 0;
   const minSqft = Number(filters.minSquareFootage) || 0;
@@ -67,7 +88,47 @@ export default function App() {
     );
   });
 
-  const favorites = filtered.filter((p) => favIds.has(p.id));
+  const favoritesMinBeds = Number(favoritesFilters.minBedrooms) || 0;
+  const favoritesMinBaths = Number(favoritesFilters.minBathrooms) || 0;
+  const favoritesMinSqft = Number(favoritesFilters.minSquareFootage) || 0;
+
+  const allFavorites = allProperties.filter((p) => favIds.has(p.id));
+  const filteredFavorites = allFavorites.filter((p) => {
+    return (
+      Number(p.bedrooms) >= favoritesMinBeds &&
+      Number(p.bathrooms) >= favoritesMinBaths &&
+      Number(p.squareFootage) >= favoritesMinSqft
+    );
+  });
+
+  // Pagination calcs
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const lastItemIndex = currentPage * itemsPerPage;
+  const firstItemIndex = lastItemIndex - itemsPerPage;
+  const currentItems = filtered.slice(firstItemIndex, lastItemIndex);
+
+  const favoritesTotalItems = filteredFavorites.length;
+  const favoritesTotalPages = Math.ceil(
+    favoritesTotalItems / favoritesItemsPerPage
+  );
+  const favoritesStartIndex =
+    (favoritesCurrentPage - 1) * favoritesItemsPerPage;
+  const favoritesEndIndex = favoritesStartIndex + favoritesItemsPerPage;
+  const currentFavoritesItems = filteredFavorites.slice(
+    favoritesStartIndex,
+    favoritesEndIndex
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleFavoritesPageChange = (page) => {
+    setFavoritesCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <BrowserRouter>
@@ -83,10 +144,15 @@ export default function App() {
               path="properties"
               element={
                 <PropertyListings
-                  properties={filtered}
-                  // favorites={favorites}
-                  // setFavorites={setFavorites}
+                  properties={currentItems}
                   onFilter={handleFilter}
+                  onPageChange={handlePageChange}
+                  pagination={{
+                    currentPage,
+                    itemsPerPage,
+                    totalItems,
+                    totalPages,
+                  }}
                 />
               }
             />
@@ -105,8 +171,15 @@ export default function App() {
               path="favorites"
               element={
                 <PropertyListings
-                  properties={favorites}
-                  onFilter={handleFilter}
+                  properties={currentFavoritesItems}
+                  onFilter={handleFavoritesFilter}
+                  onPageChange={handleFavoritesPageChange}
+                  pagination={{
+                    currentPage: favoritesCurrentPage,
+                    itemsPerPage: favoritesItemsPerPage,
+                    totalItems: favoritesTotalItems,
+                    totalPages: favoritesTotalPages,
+                  }}
                 />
               }
             />
