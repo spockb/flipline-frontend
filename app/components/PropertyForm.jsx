@@ -78,9 +78,10 @@ const PropertyForm = ({ initValues, mode }) => {
         ? formValues.images
         : [];
 
-      if (file) {
-        const url = await uploadToR2(file);
-        imagesArray = [url, ...imagesArray.slice(1)];
+      if (files.length > 0) {
+        const uploadPromises = files.map((file) => uploadToR2(file));
+        const uploadedUrls = await Promise.all(uploadPromises);
+        imagesArray = [...uploadedUrls, ...imagesArray];
       }
 
       const payload = { ...formValues, images: imagesArray };
