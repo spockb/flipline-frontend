@@ -20,7 +20,7 @@ export default function App() {
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
   const [favoritesCurrentPage, setFavoritesCurrentPage] = useState(1);
   const [favoritesItemsPerPage] = useState(6);
 
