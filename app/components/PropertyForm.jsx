@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const PropertyForm = ({ initValues, mode }) => {
+const PropertyForm = ({
+  initValues,
+  mode,
+  setAllProperties,
+  allProperties,
+}) => {
   const def = initValues ?? { images: [] };
   const [saving, setSaving] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -61,6 +66,17 @@ const PropertyForm = ({ initValues, mode }) => {
       }
 
       const data = await res.json();
+
+      if (setAllProperties && allProperties) {
+        if (mode === "create") {
+          setAllProperties([...allProperties, data]);
+        } else {
+          setAllProperties(
+            allProperties.map((p) => (p.id === data.id ? data : p))
+          );
+        }
+      }
+
       navigate(`/properties/${data.id}?r=${Date.now()}`);
       return data;
     } catch (err) {

@@ -187,11 +187,24 @@ export default function App() {
             <Route path="admin" element={<AdminRoute />}>
               <Route
                 path="properties/new"
-                element={<PropertyForm mode="create" />}
+                element={
+                  <PropertyForm
+                    mode="create"
+                    setAllProperties={setAllProperties}
+                    allProperties={allProperties}
+                  />
+                }
               />
               <Route
                 path="properties/:id/edit"
-                element={<PropertyForm mode="edit" initValues={property} />}
+                element={
+                  <PropertyForm
+                    mode="edit"
+                    initValues={property}
+                    setAllProperties={setAllProperties}
+                    allProperties={allProperties}
+                  />
+                }
               />
             </Route>
           </Route>
