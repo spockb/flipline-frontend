@@ -2,29 +2,18 @@ import SideBySide from "../components/SideBySide";
 import FAQ from "../components/FAQ";
 import CTA from "../components/CTA";
 import { useAuth } from "../auth-context";
+import Hero from "../components/Hero";
 
 const About = () => {
   const { user } = useAuth();
   return (
     <div>
-      {/* Hero Section */}
-      <section className="w-full px-4 py-24 bg-base-100">
-        <div className="container mx-auto text-center">
-          <p className="mb-4 text-sm font-semibold tracking-widest uppercase text-primary">
-            About FlipLine
-          </p>
-          <h1 className="mb-6 text-3xl font-bold leading-tight tracking-tight text-base-content md:text-5xl">
-            Your Trusted Partner in
-            <br />
-            Real Estate Investment
-          </h1>
-          <p className="max-w-2xl mx-auto mb-8 text-base text-base-content/70 md:text-xl md:leading-relaxed">
-            We specialize in connecting serious investors with high-potential
-            flip opportunities in Los Angeles. Our curated approach ensures you
-            only see properties that meet our strict investment criteria.
-          </p>
-        </div>
-      </section>
+      <Hero
+        topper="About FlipLine"
+        heading="Your Trusted Partner in"
+        subheading="Real Estate Investment"
+        body="We specialize in connecting serious investors with high-potential flip opportunities in Los Angeles. Our curated approach ensures you only see properties that meet our strict investment criteria."
+      />
 
       {/* Our Story Section */}
       <SideBySide

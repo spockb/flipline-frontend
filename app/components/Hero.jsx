@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth-context";
 
-const Hero = () => {
+const Hero = ({ topper, heading, subheading, body }) => {
   const { user } = useAuth();
 
   return (
@@ -9,20 +9,17 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-6 py-24">
         <div className="max-w-4xl">
           <p className="mb-6 text-sm font-medium tracking-wider uppercase text-blue-500">
-            Exclusive Deals. Zero Noise.
+            {topper}
           </p>
 
           <h1 className="mb-8 text-4xl font-bold leading-tight text-gray-900 md:text-6xl">
-            LA's Best Flip Opportunities
+            {heading}
             <br />
-            <span className="text-blue-500">Curated for Investors</span>
+            <span className="text-blue-500">{subheading}</span>
           </h1>
 
           <p className="mb-12 max-w-2xl text-lg leading-relaxed text-gray-600 md:text-xl">
-            Get access to high-ROI single-family homes in Los Angeles,
-            handpicked for their flip potential. No endless browsing—just the
-            best opportunities sourced by a licensed agent who works exclusively
-            with serious investors.
+            {body}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">

@@ -9,7 +9,12 @@ const Home = () => {
 
   return (
     <>
-      <Hero />
+      <Hero
+        topper="Exclusive Deals. Zero Noise."
+        heading="LA's Best Flip Opportunities"
+        subheading="Curated for Investors"
+        body="Get access to high-ROI single-family homes in Los Angeles, handpicked for their flip potential. No endless browsing—just the best opportunities sourced by a licensed agent who works exclusively with serious investors."
+      />
       <SideBySide
         heading="Handpicked. High ROI. No Guesswork."
         subheading="We don't send every listing. Just the ones that make sense."
