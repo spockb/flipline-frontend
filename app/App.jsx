@@ -13,6 +13,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import SignUp from "./routes/SignUp";
 import { useAuth } from "./auth-context";
 import { useFavorites } from "./fav-context";
+import ScrollToTop from "./ScrollToTop";
 
 export default function App() {
   const { user, ready } = useAuth();
@@ -132,84 +133,86 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<SignUp />} />
 
-          <Route element={<PrivateRoute />}>
-            <Route
-              path="properties"
-              element={
-                <PropertyListings
-                  properties={currentItems}
-                  onFilter={handleFilter}
-                  onPageChange={handlePageChange}
-                  pagination={{
-                    currentPage,
-                    itemsPerPage,
-                    totalItems,
-                    totalPages,
-                  }}
-                />
-              }
-            />
-            <Route
-              path="properties/:id"
-              element={
-                <PropertyDetails
-                  allProperties={allProperties}
-                  setAllProperties={setAllProperties}
-                  property={property}
-                  setProperty={setProperty}
-                />
-              }
-            />
-            <Route
-              path="favorites"
-              element={
-                <PropertyListings
-                  properties={currentFavoritesItems}
-                  onFilter={handleFavoritesFilter}
-                  onPageChange={handleFavoritesPageChange}
-                  pagination={{
-                    currentPage: favoritesCurrentPage,
-                    itemsPerPage: favoritesItemsPerPage,
-                    totalItems: favoritesTotalItems,
-                    totalPages: favoritesTotalPages,
-                  }}
-                />
-              }
-            />
-
-            <Route path="admin" element={<AdminRoute />}>
+            <Route element={<PrivateRoute />}>
               <Route
-                path="properties/new"
+                path="properties"
                 element={
-                  <PropertyForm
-                    mode="create"
-                    setAllProperties={setAllProperties}
-                    allProperties={allProperties}
+                  <PropertyListings
+                    properties={currentItems}
+                    onFilter={handleFilter}
+                    onPageChange={handlePageChange}
+                    pagination={{
+                      currentPage,
+                      itemsPerPage,
+                      totalItems,
+                      totalPages,
+                    }}
                   />
                 }
               />
               <Route
-                path="properties/:id/edit"
+                path="properties/:id"
                 element={
-                  <PropertyForm
-                    mode="edit"
-                    initValues={property}
-                    setAllProperties={setAllProperties}
+                  <PropertyDetails
                     allProperties={allProperties}
+                    setAllProperties={setAllProperties}
+                    property={property}
+                    setProperty={setProperty}
                   />
                 }
               />
+              <Route
+                path="favorites"
+                element={
+                  <PropertyListings
+                    properties={currentFavoritesItems}
+                    onFilter={handleFavoritesFilter}
+                    onPageChange={handleFavoritesPageChange}
+                    pagination={{
+                      currentPage: favoritesCurrentPage,
+                      itemsPerPage: favoritesItemsPerPage,
+                      totalItems: favoritesTotalItems,
+                      totalPages: favoritesTotalPages,
+                    }}
+                  />
+                }
+              />
+
+              <Route path="admin" element={<AdminRoute />}>
+                <Route
+                  path="properties/new"
+                  element={
+                    <PropertyForm
+                      mode="create"
+                      setAllProperties={setAllProperties}
+                      allProperties={allProperties}
+                    />
+                  }
+                />
+                <Route
+                  path="properties/:id/edit"
+                  element={
+                    <PropertyForm
+                      mode="edit"
+                      initValues={property}
+                      setAllProperties={setAllProperties}
+                      allProperties={allProperties}
+                    />
+                  }
+                />
+              </Route>
             </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </ScrollToTop>
     </BrowserRouter>
   );
 }
