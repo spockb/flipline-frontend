@@ -15,9 +15,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="mt-4 text-base text-base-content/80">
-              Etiam nulla ultrices consequat, posuere nulla. Ac iaculis lorem
-              phasellus ultrices adipiscing viverra sit ut quam. In diam mattis
-              elementum diam at sed ultricies.
+              Los Angeles' Best Flip Opportunities Curated for Investors
             </p>
           </div>
 
