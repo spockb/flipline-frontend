@@ -5,11 +5,8 @@ const Pagination = ({
   itemsPerPage,
   onPageChange,
   totalItems,
+  totalPages,
 }) => {
-  let pages = [];
-  for (let i = 1; i <= totalItems / itemsPerPage; i++) {
-    pages.push(Math.ceil(i));
-  }
   return (
     <div className="py-4 flex justify-center">
       <div className="join">
@@ -20,11 +17,13 @@ const Pagination = ({
         >
           Previous
         </button>
-        <p className="join-item btn pointer-events-none">{currentPage}</p>
+        <p className="join-item btn pointer-events-none">
+          {currentPage} of {totalPages}
+        </p>
         <button
           className="join-item btn"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === pages.length}
+          disabled={currentPage === totalPages}
         >
           Next
         </button>

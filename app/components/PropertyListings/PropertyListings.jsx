@@ -38,6 +38,7 @@ const PropertyListings = ({
             itemsPerPage={itemsPerPage}
             onPageChange={onPageChange}
             totalItems={totalItems}
+            totalPages={totalPages}
           />
         </>
       ) : (
