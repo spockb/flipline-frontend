@@ -1,12 +1,6 @@
 import React from "react";
 
-const Pagination = ({
-  currentPage,
-  itemsPerPage,
-  onPageChange,
-  totalItems,
-  totalPages,
-}) => {
+const Pagination = ({ currentPage, onPageChange, totalPages }) => {
   return (
     <div className="py-4 flex justify-center">
       <div className="join">
