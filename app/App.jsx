@@ -131,6 +131,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage, favoritesCurrentPage]);
+
   return (
     <BrowserRouter>
       <ScrollToTop>
