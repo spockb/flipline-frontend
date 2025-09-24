@@ -151,8 +151,6 @@ export default function App() {
                     onPageChange={handlePageChange}
                     pagination={{
                       currentPage,
-                      itemsPerPage,
-                      totalItems,
                       totalPages,
                     }}
                   />
@@ -178,8 +176,6 @@ export default function App() {
                     onPageChange={handleFavoritesPageChange}
                     pagination={{
                       currentPage: favoritesCurrentPage,
-                      itemsPerPage: favoritesItemsPerPage,
-                      totalItems: favoritesTotalItems,
                       totalPages: favoritesTotalPages,
                     }}
                   />

@@ -10,12 +10,7 @@ const PropertyListings = ({
   pagination = null,
 }) => {
   const { has, toggle } = useFavorites();
-  const {
-    currentPage = 1,
-    totalPages = 1,
-    itemsPerPage = 12,
-    totalItems = properties.length,
-  } = pagination || {};
+  const { currentPage = 1, totalPages = 1 } = pagination || {};
 
   return (
     <div className="p-4">
@@ -35,9 +30,7 @@ const PropertyListings = ({
 
           <Pagination
             currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
             onPageChange={onPageChange}
-            totalItems={totalItems}
             totalPages={totalPages}
           />
         </>
